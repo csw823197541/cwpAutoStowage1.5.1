@@ -12,7 +12,7 @@ public class PreStowageData {
     private String CTYPECD;        //箱型
     private String  GROUPID;       //属性组
     private Integer WEIGHT;         //重量等级
-    private Integer MOVEORDER;    //move顺序
+    private Long MOVEORDER;    //move顺序
     private String LDULD;    //装卸船标志
     private String WORKFLOW;    //作业工艺
     private String QCNO;     //桥机号
@@ -106,11 +106,11 @@ public class PreStowageData {
         this.WEIGHT = WEIGHT;
     }
 
-    public Integer getMOVEORDER() {
+    public Long getMOVEORDER() {
         return MOVEORDER;
     }
 
-    public void setMOVEORDER(Integer MOVEORDER) {
+    public void setMOVEORDER(Long MOVEORDER) {
         this.MOVEORDER = MOVEORDER;
     }
 

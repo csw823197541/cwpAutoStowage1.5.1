@@ -9,7 +9,7 @@ public class MoveInfo {
 
     private String vpcCntrId;                    //唯一编号
     private String craneNo;                 //桥机号
-    private Integer moveNum;                     //桥机作业顺序号
+    private Long moveNum;                     //桥机作业顺序号
     private String moveKind;                //装卸标志
     private String containerId;                  //箱Id号
     private String size;              //箱尺寸
@@ -22,11 +22,11 @@ public class MoveInfo {
     private String workFlow;    //作业工艺
     private Long voyId; //航次Id，进口航次或出口航次
 
-    private String workStatus; //指令状态
+    private String workStatus; //指令状态:发送(指令队列中)A; 完成C,RC; 作业中W; 未发送Y,S,P; 退卸或退装R
     private String workIsExchange; //指令是否可以交换
     private String workIsRepeal; //指令是否可以撤销
 
-    private Integer carryOrder; //装上AGV的顺序
+    private Long carryOrder; //装上AGV的顺序
 
     private String DSTPORT; //目的港
     private Integer WEIGHT; //重量
@@ -63,11 +63,11 @@ public class MoveInfo {
         this.craneNo = craneNo;
     }
 
-    public Integer getMoveNum() {
+    public Long getMoveNum() {
         return moveNum;
     }
 
-    public void setMoveNum(Integer moveNum) {
+    public void setMoveNum(Long moveNum) {
         this.moveNum = moveNum;
     }
 
@@ -167,11 +167,11 @@ public class MoveInfo {
         this.workIsRepeal = workIsRepeal;
     }
 
-    public Integer getCarryOrder() {
+    public Long getCarryOrder() {
         return carryOrder;
     }
 
-    public void setCarryOrder(Integer carryOrder) {
+    public void setCarryOrder(Long carryOrder) {
         this.carryOrder = carryOrder;
     }
 }

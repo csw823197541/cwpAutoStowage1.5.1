@@ -45,12 +45,12 @@ public class CwpResultInfoToMove {
 
             for(CwpResultInfo cwpResultInfo : cwpResultInfoListIn) {
 
-                int moveCount = cwpResultInfo.getMOVECOUNT();
+                Long moveCount = cwpResultInfo.getMOVECOUNT();
                 if (moveCount != 0) {
                     int startTime = cwpResultInfo.getREALWORKINGSTARTTIME();
                     int endTime = cwpResultInfo.getWORKINGENDTIME();
                     Date startTimeDate = cwpResultInfo.getWorkingStartTime();
-                    int singleMoveWorkTime = (endTime-startTime)/moveCount; //做一个move的时间
+                    int singleMoveWorkTime = (endTime-startTime)/moveCount.intValue(); //做一个move的时间
 
                     String craneId = cwpResultInfo.getCRANEID();
                     String hatchId = cwpResultInfo.getHATCHID();
@@ -59,11 +59,11 @@ public class CwpResultInfoToMove {
                     String LD = cwpResultInfo.getLDULD();
                     Double cranePosition = cwpResultInfo.getCranesPosition();
 
-                    int startMoveOrder = cwpResultInfo.getStartMoveID();
+                    Long startMoveOrder = cwpResultInfo.getStartMoveID();
 
                     for(int i = 0; i < moveCount; i++) {   //有多少个move，就拆成几个对象
 
-                        int moveOrder = startMoveOrder + i;
+                        Long moveOrder = startMoveOrder + i;
                         //舱.作业序列.作业工艺为关键字,查找船箱位
                         String key = hatchId + "." + moveOrder + "." + moveType;
                         List<String> vesselPosition = moveOrderRecords.get(key);

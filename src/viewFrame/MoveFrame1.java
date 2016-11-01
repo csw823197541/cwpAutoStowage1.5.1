@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by leko on 2016/1/22.
  */
-public class MoveFrame extends JFrame {
+public class MoveFrame1 extends JFrame {
     private JPanel panelCenter;
     private JPanel contentPane;
     private JScrollPane scrollPane;
@@ -26,7 +26,7 @@ public class MoveFrame extends JFrame {
     private List<MoveInfo> moveInfoList;
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public MoveFrame(List<MoveInfo> moveInfoList) {
+    public MoveFrame1(List<MoveInfo> moveInfoList) {
         this.moveInfoList = moveInfoList;
         initComponents();
     }
@@ -52,7 +52,7 @@ public class MoveFrame extends JFrame {
                     DefaultTableModel tableModel = new DefaultTableModel();
 
                     //增加列名
-                    List<String> colList = new ArrayList<String>(Arrays.asList("gkey", "航次", "开始时间", "结束时间", "桥机号", "顺序号", "作业工艺", "装卸", "箱号", "尺寸", "目的港", "重量", "场箱位", "船箱位"));
+                    List<String> colList = new ArrayList<String>(Arrays.asList("gkey", "航次", "开始时间", "结束时间", "桥机号", "顺序号", "作业工艺", "装卸", "箱号", "尺寸", "状态", "上车次序", "场箱位", "船箱位"));
                     for (String col : colList) {
 //                        System.out.println(col);
                         tableModel.addColumn(col);
@@ -72,8 +72,8 @@ public class MoveFrame extends JFrame {
                         rowData[7] = moveInfo.getMoveKind();
                         rowData[8] = moveInfo.getContainerId();
                         rowData[9] = moveInfo.getSize();
-                        rowData[10] = moveInfo.getDSTPORT();
-                        rowData[11] = moveInfo.getWEIGHT();
+                        rowData[10] = moveInfo.getWorkStatus();
+                        rowData[11] = moveInfo.getCarryOrder();
                         rowData[12] = moveInfo.getAreaPosition();
                         rowData[13] = moveInfo.getVesselPosition();
                         tableModel.addRow(rowData);

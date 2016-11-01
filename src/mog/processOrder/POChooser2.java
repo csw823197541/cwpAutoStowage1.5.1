@@ -14,10 +14,10 @@ import java.util.Set;
  */
 public class POChooser2 {
 
-    private int seq;//作业顺序
+    private Long seq;//作业顺序
 
     public POChooser2() {
-        this.seq = 1;
+        this.seq = 1L;
     }
 
     //判断MOSlotBlock中所有箱子是否都被编序

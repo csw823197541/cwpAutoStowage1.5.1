@@ -63,7 +63,7 @@ public class GenerateMoveInfoResult {
                 for(List<CwpResultMoveInfo> valueList : craneMap.values()) {
                     //调用排序算法，按开始时间排序
                     valueList = sortByStartTime(valueList);
-                    int moveID = 0;
+                    Long moveID = 0L;
                     Date lastStartTime = null;
                     try {
                         lastStartTime = sdf.parse("1990-09-10 10:00:00");

@@ -21,7 +21,7 @@ public class DiZhongHaiMaGeLiTe {
 
         String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File(filePath + "crane1.txt")).toString();
+        String cr = FileUtil.readFileToString(new File(filePath + "crane4.txt")).toString();
 
         String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
 //        String co = FileUtil.readFileToString(new File("toTempData/tempContainer.txt")).toString();
@@ -110,13 +110,14 @@ public class DiZhongHaiMaGeLiTe {
         Long autoStowNo = 4L;
         List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(autoStowNo, groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
         System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(autoStowNo));
+
         List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 
         //可视化显示配载结果
-//        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList, autoStowInfoList);
-//        vesselImageFrame.setVisible(true);
+        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList, autoStowInfoList);
+        vesselImageFrame.setVisible(true);
 
     }
 

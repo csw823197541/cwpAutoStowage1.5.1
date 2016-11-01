@@ -116,7 +116,7 @@ public class CwpResultPanel1 extends JPanel{
             g2d.drawLine(leftMargin-5, j*(cwpBlock-hatchWidth)/timeStep + topMargin + hatchWidth, leftMargin, j*(cwpBlock-hatchWidth)/timeStep + topMargin + hatchWidth);
         }
         //画作业块
-        Map<String, Integer> countQuery = new HashMap<>();//每个倍位的moveCount数统计
+        Map<String, Long> countQuery = new HashMap<>();//每个倍位的moveCount数统计
         List<String> strList;
         String strNew;
         for(CwpResultInfo cwpResultInfo : cwpResultInfoList) {
@@ -124,9 +124,9 @@ public class CwpResultPanel1 extends JPanel{
             int bayId = Integer.valueOf(cwpResultInfo.getHATCHBWID());//得到倍位号
             int startTime = cwpResultInfo.getWORKINGSTARTTIME();
             int endTime = cwpResultInfo.getWORKINGENDTIME();
-            int moveCount = cwpResultInfo.getMOVECOUNT();
-            int craneSeq = cwpResultInfo.getCraneSeq();
-            int hatchSeq = cwpResultInfo.getHatchSeq();
+            Long moveCount = cwpResultInfo.getMOVECOUNT();
+            Long craneSeq = cwpResultInfo.getCraneSeq();
+            Long hatchSeq = cwpResultInfo.getHatchSeq();
             String ldFlag = cwpResultInfo.getLDULD();
             if(countQuery.get(bayId+"") != null) {
                 countQuery.put(bayId+"", countQuery.get(bayId + "") + moveCount);
@@ -158,7 +158,7 @@ public class CwpResultPanel1 extends JPanel{
         }
         //遍历Map，画出每个倍位的moveCount数
         if(countQuery != null) {
-            for(Map.Entry<String, Integer> entry : countQuery.entrySet()) {
+            for(Map.Entry<String, Long> entry : countQuery.entrySet()) {
                 int x = bayQuery.get(Integer.valueOf(entry.getKey()));
                 g2d.setPaint(Color.red);
                 if(Integer.valueOf(entry.getKey())%2 == 0) {

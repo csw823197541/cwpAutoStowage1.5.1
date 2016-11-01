@@ -16,7 +16,7 @@ public class CwpResultMoveInfo {
     private Integer WORKINGENDTIME;//结束时间
     private Integer WORKINGSTARTTIME;//起始时间
 
-    private Integer moveOrder;  //作业顺序
+    private Long moveOrder;  //作业顺序
     private String MOVETYPE;//作业工艺
     private String LDULD;    //装卸船标志
 
@@ -54,11 +54,11 @@ public class CwpResultMoveInfo {
         this.size = size;
     }
 
-    public Integer getMoveOrder() {
+    public Long getMoveOrder() {
         return moveOrder;
     }
 
-    public void setMoveOrder(Integer moveOrder) {
+    public void setMoveOrder(Long moveOrder) {
         this.moveOrder = moveOrder;
     }
 

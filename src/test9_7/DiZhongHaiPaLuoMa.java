@@ -128,7 +128,7 @@ public class DiZhongHaiPaLuoMa {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date curTime = sdf.parse(curTimeStr);
         Long workNo = 5L;
-        List<MoveInfo> instructionList = GenerateInstruction.getWorkInstruction(workNo, moveInfoList, curTime, 30);
+        List<MoveInfo> instructionList = GenerateInstruction.getWorkInstruction(workNo, moveInfoList, 30, new HashMap<String, Integer>());
         System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(workNo));
         MoveFrame moveFrame1 = new MoveFrame(instructionList);
         moveFrame1.setVisible(true);

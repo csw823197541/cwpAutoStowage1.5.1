@@ -111,7 +111,7 @@ public class CwpResultInfoTransform {
         for(Map<Integer, CwpResultInfo> valueMap : craneIdMap.values()) {
             List<Integer> timeList = new ArrayList(valueMap.keySet());
             Collections.sort(timeList);     //按时间进行排序
-            int seq = 1;
+            Long seq = 1L;
             CwpResultInfo lastBlock = null; //上一个大块对象
             for(Integer tKey : timeList) {  //由于按时间排序了，所以直接编序号
                 CwpResultInfo currentBlock = valueMap.get(tKey);    //当前大块对象
@@ -171,7 +171,7 @@ public class CwpResultInfoTransform {
         for(Map<Integer, CwpResultInfo> valueMap : hatchIdMap.values()) {
             List<Integer> timeList = new ArrayList(valueMap.keySet());
             Collections.sort(timeList);
-            int seq = 1;
+            Long seq = 1L;
             CwpResultInfo lastBlock = null; //上一个大块对象
             for(int i = 0; i < timeList.size(); i++) {
                 int tKey = timeList.get(i);

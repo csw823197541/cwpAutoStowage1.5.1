@@ -114,7 +114,7 @@ public class CwpResultPanel extends JPanel{
             g2d.drawLine(leftMargin-5, j*(cwpBlock-hatchWidth)/timeStep + topMargin + hatchWidth, leftMargin, j*(cwpBlock-hatchWidth)/timeStep + topMargin + hatchWidth);
         }
         //画作业块
-        Map<String, Integer> countQuery = new HashMap<>();//每个倍位的moveCount数统计
+        Map<String, Long> countQuery = new HashMap<>();//每个倍位的moveCount数统计
         Map<String, List<String>> blockCountQuery = new HashMap<>();//每个作业块的moveCount数统计
         List<String> strList;
         String strNew;
@@ -123,7 +123,7 @@ public class CwpResultPanel extends JPanel{
             int bayId = Integer.valueOf(cwpResultInfo.getHATCHBWID());//得到倍位号
             int startTime = cwpResultInfo.getWORKINGSTARTTIME();
             int endTime = cwpResultInfo.getWORKINGENDTIME();
-            int moveCount = cwpResultInfo.getMOVECOUNT();
+            Long moveCount = cwpResultInfo.getMOVECOUNT();
             if(countQuery.get(bayId+"") != null) {
                 countQuery.put(bayId+"", countQuery.get(bayId + "") + moveCount);
             } else {
@@ -136,7 +136,7 @@ public class CwpResultPanel extends JPanel{
                 boolean flag = false;
                 for(String str : startTimeEndTimeMoveCount) {
                     if((Integer.valueOf(str.split(" ")[1]) == startTime) || (Integer.valueOf(str.split(" ")[1]) == startTime+1)) {//结束时间与开始时间相同，是同一个作业块的
-                        int count = Integer.valueOf(str.split(" ")[2])+moveCount;
+                        Long count = Integer.valueOf(str.split(" ")[2])+moveCount;
                         strNew = str.split(" ")[0]+" "+endTime+" "+count;
                         strList.add(strNew);
                         flag = true;
@@ -163,7 +163,7 @@ public class CwpResultPanel extends JPanel{
         }
         //遍历Map，画出每个倍位的moveCount数
         if(countQuery != null) {
-            for(Map.Entry<String, Integer> entry : countQuery.entrySet()) {
+            for(Map.Entry<String, Long> entry : countQuery.entrySet()) {
                 int x = bayQuery.get(Integer.valueOf(entry.getKey()));
                 g2d.setPaint(Color.red);
                 if(Integer.valueOf(entry.getKey())%2 == 0) {

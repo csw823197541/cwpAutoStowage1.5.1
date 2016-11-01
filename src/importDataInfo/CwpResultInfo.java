@@ -8,12 +8,12 @@ import java.util.Date;
 public class CwpResultInfo implements Cloneable{
 
     private String CRANEID;//桥机ID
-    private Integer EndMoveID;//结束时，舱内的MoveOrder
+    private Long EndMoveID;//结束时，舱内的MoveOrder
     private String HATCHBWID;//倍位ID
     private String HATCHID;//舱ID
-    private Integer MOVECOUNT;//Move总数
+    private Long MOVECOUNT;//Move总数
     private Integer QDC;//是否启动舱
-    private Integer StartMoveID;//开始时，舱内的MoveOrder
+    private Long StartMoveID;//开始时，舱内的MoveOrder
     private String VESSELID;//航次ID
     private Integer WORKINGENDTIME;//结束时间
     private Integer WORKINGSTARTTIME;//起始时间
@@ -23,8 +23,8 @@ public class CwpResultInfo implements Cloneable{
     private String LDULD;    //装卸船标志
 
     private Integer workTimeMinute;//桥机连续作业的时间，单位是分钟
-    private Integer craneSeq;//作业某个舱所有桥机的作业顺序
-    private Integer hatchSeq;//某个桥机作业哪些舱的顺序
+    private Long craneSeq;//作业某个舱所有桥机的作业顺序
+    private Long hatchSeq;//某个桥机作业哪些舱的顺序
 
     private Date workingStartTime;     //开始作业时间
     private Date workingEndTime;        //结束作业时间
@@ -67,19 +67,19 @@ public class CwpResultInfo implements Cloneable{
         this.workTimeMinute = workTimeMinute;
     }
 
-    public Integer getHatchSeq() {
+    public Long getHatchSeq() {
         return hatchSeq;
     }
 
-    public void setHatchSeq(Integer hatchSeq) {
+    public void setHatchSeq(Long hatchSeq) {
         this.hatchSeq = hatchSeq;
     }
 
-    public Integer getCraneSeq() {
+    public Long getCraneSeq() {
         return craneSeq;
     }
 
-    public void setCraneSeq(Integer craneSeq) {
+    public void setCraneSeq(Long craneSeq) {
         this.craneSeq = craneSeq;
     }
 
@@ -99,7 +99,7 @@ public class CwpResultInfo implements Cloneable{
         this.CRANEID = CRANEID;
     }
 
-    public Integer getEndMoveID() {
+    public Long getEndMoveID() {
         if(StartMoveID == null || MOVECOUNT == null){
             return null;
         }
@@ -108,7 +108,7 @@ public class CwpResultInfo implements Cloneable{
         }
     }
 
-    public void setEndMoveID(Integer endMoveID) {
+    public void setEndMoveID(Long endMoveID) {
         EndMoveID = endMoveID;
     }
 
@@ -128,11 +128,11 @@ public class CwpResultInfo implements Cloneable{
         this.HATCHID = HATCHID;
     }
 
-    public Integer getMOVECOUNT() {
+    public Long getMOVECOUNT() {
         return MOVECOUNT;
     }
 
-    public void setMOVECOUNT(Integer MOVECOUNT) {
+    public void setMOVECOUNT(Long MOVECOUNT) {
         this.MOVECOUNT = MOVECOUNT;
     }
 
@@ -144,11 +144,11 @@ public class CwpResultInfo implements Cloneable{
         this.QDC = QDC;
     }
 
-    public Integer getStartMoveID() {
+    public Long getStartMoveID() {
         return StartMoveID;
     }
 
-    public void setStartMoveID(Integer startMoveID) {
+    public void setStartMoveID(Long startMoveID) {
         StartMoveID = startMoveID;
     }
 
