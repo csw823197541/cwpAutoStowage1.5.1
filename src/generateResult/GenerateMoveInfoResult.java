@@ -17,13 +17,13 @@ public class GenerateMoveInfoResult {
             List<VoyageInfo> voyageInfoList,
             List<PreStowageData> preStowageDataList,
             List<CwpResultMoveInfo> cwpResultMoveInfoList,
-            List<AutoStowResultInfo> autoStowResultInfoList) {
+            List<AutoStowResultInfo1> autoStowResultInfoList) {
         List<MoveInfo> moveInfoList = new ArrayList<>();
 
         try{
 //            if(autoStowResultInfoList != null) {
-                Map<String, AutoStowResultInfo> autoStowResult = new HashMap<>();        //自动配载结果,根据船箱位找到配载的箱子信息
-                for(AutoStowResultInfo autoStowResultInfo : autoStowResultInfoList) {
+                Map<String, AutoStowResultInfo1> autoStowResult = new HashMap<>();        //自动配载结果,根据船箱位找到配载的箱子信息
+                for(AutoStowResultInfo1 autoStowResultInfo : autoStowResultInfoList) {
                     autoStowResult.put(autoStowResultInfo.getVesselPosition(), autoStowResultInfo);
                 }
 
@@ -91,7 +91,7 @@ public class GenerateMoveInfoResult {
                         moveInfo.setWorkingStartTime(cwpResultMoveInfo.getWorkingStartTime());
                         moveInfo.setWorkingEndTime(cwpResultMoveInfo.getWorkingEndTime());
 
-                        AutoStowResultInfo stowResult = autoStowResult.get(vesselP);
+                        AutoStowResultInfo1 stowResult = autoStowResult.get(vesselP);
                         if(stowResult != null && "L".equals(LD)) {
                             moveInfo.setAreaPosition(stowResult.getAreaPosition());
                             moveInfo.setContainerId(stowResult.getContainerId());

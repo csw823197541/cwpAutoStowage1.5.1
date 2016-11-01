@@ -1,6 +1,7 @@
 package viewFrame;
 
 import importDataInfo.AutoStowResultInfo;
+import importDataInfo.AutoStowResultInfo1;
 import importDataInfo.VesselStructureInfo;
 
 import javax.swing.*;
@@ -18,12 +19,12 @@ public class ContainerImageFrame extends JFrame{
     private JPanel forScrolPanel;
     private JLabel title;
     private java.util.List<VesselStructureInfo> vesselStructureInfoList;
-    private java.util.List<AutoStowResultInfo> autoStowInfoList;
+    private java.util.List<AutoStowResultInfo1> autoStowInfoList;
     private int bayID;
 
     Map<String,String[]> resultInBay = new HashMap<>();//存储当前倍里的配载结果
 
-    public  ContainerImageFrame(java.util.List<VesselStructureInfo> vesselStructureInfoList,java.util.List<AutoStowResultInfo> autoStowInfoList,int bayID){
+    public  ContainerImageFrame(java.util.List<VesselStructureInfo> vesselStructureInfoList,java.util.List<AutoStowResultInfo1> autoStowInfoList,int bayID){
        this.vesselStructureInfoList = vesselStructureInfoList;
         this.autoStowInfoList = autoStowInfoList;
         this.bayID = bayID;
@@ -46,12 +47,13 @@ public class ContainerImageFrame extends JFrame{
 
         Map<String,String[]> autoStowResult = new HashMap<>();        //自动配载结果
 
-        for(AutoStowResultInfo autoStowResultInfo : autoStowInfoList) {
-            String[] value = new String[4];
-            value[0] = autoStowResultInfo.getAreaPosition();
-            value[1] = autoStowResultInfo.getContainerId();
-            value[2] = autoStowResultInfo.getSize();
-            value[3] = autoStowResultInfo.getWeightLevel();
+        for(AutoStowResultInfo1 autoStowResultInfo : autoStowInfoList) {
+            String[] value = new String[5];
+            value[0] = autoStowResultInfo.getContainerId();
+            value[1] = autoStowResultInfo.getGroup();
+            value[2] = autoStowResultInfo.getWeightLevel();
+            value[3] = String.valueOf(autoStowResultInfo.getPreWeight());
+            value[4] = String.valueOf(autoStowResultInfo.getStowWeight());
             autoStowResult.put(autoStowResultInfo.getVesselPosition(), value);
         }
 
@@ -170,7 +172,7 @@ public class ContainerImageFrame extends JFrame{
             for(int i=0;i<=tier;i++){
                 for(int j=0;j<=row;j++){
                     btn[i][j] = new JButton();
-                    btn[i][j].setPreferredSize(new Dimension(100,50));
+                    btn[i][j].setPreferredSize(new Dimension(140,70));
                     btn[i][j].setFont(new Font("",Font.BOLD,10));
 
                     if(i== tier && j == 0){//最左下脚的空白位置
@@ -193,7 +195,7 @@ public class ContainerImageFrame extends JFrame{
                                 btn[i][j].setText("未配载!");
                             }else {
                                 btn[i][j].setFont(new Font("宋体",Font.BOLD,10));
-                                btn[i][j].setText("<html>"+resultInBay.get(loc)[1]+"<br>"+resultInBay.get(loc)[0]+"<br>"+"尺寸"+resultInBay.get(loc)[2]+"<br>"+"重量等级"+resultInBay.get(loc)[3]+"</html>");
+                                btn[i][j].setText("<html>"+"NO:"+resultInBay.get(loc)[0]+"<br>"+"G:"+resultInBay.get(loc)[1]+"<br>"+"WL:"+resultInBay.get(loc)[2]+"<br>"+"PW:"+resultInBay.get(loc)[3]+"<br>"+"SW:"+resultInBay.get(loc)[4]+"</html>");
                             }
                         }
                     }

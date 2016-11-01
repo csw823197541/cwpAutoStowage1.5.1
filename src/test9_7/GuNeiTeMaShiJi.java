@@ -108,15 +108,15 @@ public class GuNeiTeMaShiJi {
 
         //测试自动配载算法
         Long autoStowNo = 4L;
-        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(autoStowNo, groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
+        List<AutoStowResultInfo1> autoStowInfoList = GenerateAutoStowResult1.getAutoStowResult(autoStowNo, groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
         System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(autoStowNo));
         List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 
-//        //可视化显示配载结果
-//        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList, autoStowInfoList);
-//        vesselImageFrame.setVisible(true);
+        //可视化显示配载结果
+        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList, autoStowInfoList);
+        vesselImageFrame.setVisible(true);
 
     }
 

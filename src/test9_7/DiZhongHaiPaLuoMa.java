@@ -110,28 +110,28 @@ public class DiZhongHaiPaLuoMa {
 
         //测试自动配载算法
         Long autoStowNo = 4L;
-        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(autoStowNo, groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
+        List<AutoStowResultInfo1> autoStowInfoList = GenerateAutoStowResult1.getAutoStowResult(autoStowNo, groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
         System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(autoStowNo));
         List<MoveInfo> moveInfoList = GenerateMoveInfoResult.getMoveInfoResult(voyageInfoList, resultList, cwpResultInfoToMoveList, autoStowInfoList);
         MoveFrame moveFrame = new MoveFrame(moveInfoList);
         moveFrame.setVisible(true);
 
         //可视化显示配载结果
-//        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList, autoStowInfoList);
-//        vesselImageFrame.setVisible(true);
+        VesselImageFrame vesselImageFrame = new VesselImageFrame(vesselStructureInfoList, autoStowInfoList);
+        vesselImageFrame.setVisible(true);
 
-        //测试发送指令
-        for (MoveInfo moveInfo : moveInfoList) {
-            moveInfo.setWorkStatus("R");
-        }
-        String curTimeStr = "2016-09-05 19:40:00";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date curTime = sdf.parse(curTimeStr);
-        Long workNo = 5L;
-        List<MoveInfo> instructionList = GenerateInstruction.getWorkInstruction(workNo, moveInfoList, 30, new HashMap<String, Integer>());
-        System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(workNo));
-        MoveFrame moveFrame1 = new MoveFrame(instructionList);
-        moveFrame1.setVisible(true);
+//        //测试发送指令
+//        for (MoveInfo moveInfo : moveInfoList) {
+//            moveInfo.setWorkStatus("R");
+//        }
+//        String curTimeStr = "2016-09-05 19:40:00";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date curTime = sdf.parse(curTimeStr);
+//        Long workNo = 5L;
+//        List<MoveInfo> instructionList = GenerateInstruction.getWorkInstruction(workNo, moveInfoList, 30, new HashMap<String, Integer>());
+//        System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(workNo));
+//        MoveFrame moveFrame1 = new MoveFrame(instructionList);
+//        moveFrame1.setVisible(true);
 
     }
 

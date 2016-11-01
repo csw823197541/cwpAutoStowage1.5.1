@@ -1,6 +1,7 @@
 package viewFrame;
 
 import importDataInfo.AutoStowResultInfo;
+import importDataInfo.AutoStowResultInfo1;
 import importDataInfo.VesselStructureInfo;
 
 import javax.swing.*;
@@ -43,9 +44,9 @@ public class VesselImageFrame extends JFrame {
 
 
     private List<VesselStructureInfo> vesselStructureInfoList;
-    private List<AutoStowResultInfo> autoStowInfoList;
+    private List<AutoStowResultInfo1> autoStowInfoList;
 
-   public VesselImageFrame(List<VesselStructureInfo> vesselStructureInfoList, List<AutoStowResultInfo> autoStowInfoList) {
+   public VesselImageFrame(List<VesselStructureInfo> vesselStructureInfoList, List<AutoStowResultInfo1> autoStowInfoList) {
        this.vesselStructureInfoList = vesselStructureInfoList;
        this.autoStowInfoList = autoStowInfoList;
        initComponents();
