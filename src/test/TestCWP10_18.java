@@ -23,7 +23,7 @@ public class TestCWP10_18 {
 
         String sh = FileUtil.readFileToString(new File(filePath + "CwpVslStr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File(filePath + "CwpCrane4.txt")).toString();
+        String cr = FileUtil.readFileToString(new File(filePath + "CwpCrane.txt")).toString();
 
 //        String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
 //        String co = FileUtil.readFileToString(new File("toTempData/tempContainer.txt")).toString();
@@ -119,6 +119,8 @@ public class TestCWP10_18 {
 //        MoveFrame moveFrame = new MoveFrame(moveInfoList);
 //        moveFrame.setVisible(true);
 
+//        TestCWP10_18 testCWP10_18 = new TestCWP10_18();
+//        testCWP10_18.main(null);
     }
 
     private static List<CwpResultMoveInfo> sortByStartTime(List<CwpResultMoveInfo> valueList) {

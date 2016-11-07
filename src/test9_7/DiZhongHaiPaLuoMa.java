@@ -23,7 +23,7 @@ public class DiZhongHaiPaLuoMa {
 
         String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File(filePath + "crane.txt")).toString();
+        String cr = FileUtil.readFileToString(new File(filePath + "crane1.txt")).toString();
 
         String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
 //        String co = FileUtil.readFileToString(new File("toTempData/tempContainer.txt")).toString();
@@ -69,10 +69,21 @@ public class DiZhongHaiPaLuoMa {
         //实配图
         String pr = FileUtil.readFileToString(new File(filePath + "cwpperstowage.txt")).toString();
         List<PreStowageData> preStowageDataList = PreStowageDataProcess.getPreStowageInfo(pr);
+
+        //41756,41757
+        List<PreStowageData> preStowageDataList1 = new ArrayList<>();
+        for (PreStowageData preStowageData : preStowageDataList) {
+            if (preStowageData.getVHTID().equals("41755")
+                    || preStowageData.getVHTID().equals("41756")
+                    ) {
+                preStowageDataList1.add(preStowageData);
+            }
+        }
+
         //测试根据实配图生成预配图
         //将数据放在不同的舱位里
         List<String> VHTIDs = new ArrayList<>();//存放舱位ID
-        for(PreStowageData preStowageData : preStowageDataList) {
+        for(PreStowageData preStowageData : preStowageDataList1) {
             if(!VHTIDs.contains(preStowageData.getVHTID())) {
                 VHTIDs.add(preStowageData.getVHTID());
             }
@@ -81,10 +92,10 @@ public class DiZhongHaiPaLuoMa {
         System.out.println( "舱位数：" + VHTIDs.size());
         Map<String, List<Integer>> workFlowMap = new HashMap<>();
         for (String str : VHTIDs) {
-            workFlowMap.put(str, Arrays.asList(1));
+            workFlowMap.put(str, Arrays.asList(1,2));
         }
         Long moveOrderAndWorkFlowNo = 2L;
-        List<PreStowageData> resultList = GenerateMoveOrder.getMoveOrderAndWorkFlow(moveOrderAndWorkFlowNo, preStowageDataList, vesselStructureInfoList, workFlowMap);
+        List<PreStowageData> resultList = GenerateMoveOrder.getMoveOrderAndWorkFlow(moveOrderAndWorkFlowNo, preStowageDataList1, vesselStructureInfoList, workFlowMap);
         System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(moveOrderAndWorkFlowNo));
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);
@@ -103,7 +114,7 @@ public class DiZhongHaiPaLuoMa {
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分
         Long cwpNo2 = 32L;
-        List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpNo2, cwpResultInfoList, preStowageDataList);
+        List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpNo2, cwpResultInfoList, preStowageDataList1);
         System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(cwpNo2));
         CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
         cwpResultMoveInfoFrame.setVisible(true);
