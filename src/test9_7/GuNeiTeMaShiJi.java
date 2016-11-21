@@ -21,7 +21,7 @@ public class GuNeiTeMaShiJi {
 
         String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File(filePath + "crane.txt")).toString();
+        String cr = FileUtil.readFileToString(new File(filePath + "crane4.txt")).toString();
 
         String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
 //        String co = FileUtil.readFileToString(new File("toTempData/tempContainer.txt")).toString();

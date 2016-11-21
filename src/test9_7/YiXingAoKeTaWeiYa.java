@@ -21,7 +21,7 @@ public class YiXingAoKeTaWeiYa {
 
         String sh = FileUtil.readFileToString(new File(filePath + "vslstr.txt")).toString();
 
-        String cr = FileUtil.readFileToString(new File(filePath + "crane.txt")).toString();
+        String cr = FileUtil.readFileToString(new File(filePath + "crane4.txt")).toString();
 
         String co = FileUtil.readFileToString(new File(filePath + "containers.txt")).toString();
 //        String co = FileUtil.readFileToString(new File("toTempData/tempContainer.txt")).toString();
@@ -79,7 +79,7 @@ public class YiXingAoKeTaWeiYa {
         System.out.println( "舱位数：" + VHTIDs.size());
         Map<String, List<Integer>> workFlowMap = new HashMap<>();
         for (String str : VHTIDs) {
-            workFlowMap.put(str, Arrays.asList(1));
+            workFlowMap.put(str, Arrays.asList(1, 2, 3));
         }
         Long moveOrderAndWorkFlowNo = 2L;
         List<PreStowageData> resultList = GenerateMoveOrder.getMoveOrderAndWorkFlow(moveOrderAndWorkFlowNo, preStowageDataList, vesselStructureInfoList, workFlowMap);
