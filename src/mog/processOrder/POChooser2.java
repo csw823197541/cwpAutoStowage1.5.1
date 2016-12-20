@@ -1,12 +1,10 @@
 package mog.processOrder;
 
+import importDataProcess.ImportData;
 import mog.entity.*;
 import mog.processType.WorkType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by csw on 2016/8/2 9:31.
@@ -134,10 +132,18 @@ public class POChooser2 {
         return result;
     }
 
-    public List<MOSlot> getTopMOSlotList(Map<Integer, MOSlotStack> bay, MOSlotBlock moSlotBlock) {
+    public List<MOSlot> getTopMOSlotList(Map<Integer, MOSlotStack> bay, MOSlotBlock moSlotBlock, boolean isBefore) {
         List<MOSlot> moSlotList = new ArrayList<>();
-        for (int j = 0; j < moSlotBlock.getRowSeqList().size(); j++) {
-            int row = moSlotBlock.getRowSeqList().get(j);
+
+        List<Integer> rowSeqList;
+        if (isBefore == true) {//甲板下的遍历顺序
+            rowSeqList = moSlotBlock.getRowSeqListAsc();
+        } else {
+            rowSeqList = moSlotBlock.getRowSeqList();
+        }
+
+        for (int j = 0; j < rowSeqList.size(); j++) {
+            int row = rowSeqList.get(j);
             MOSlotStack moSlotStack = bay.get(row);
             if (moSlotStack != null) {
                 MOSlot moSlotTop = moSlotStack.getTopMOSlot();
@@ -150,9 +156,9 @@ public class POChooser2 {
     }
 
     //处理卸船编MoveOrder的过程
-    public int processD(WorkType wt, Map<Integer, MOSlotStack> bay, MOSlotBlock moSlotBlock) {
+    public int processD(WorkType wt, Map<Integer, MOSlotStack> bay, MOSlotBlock moSlotBlock, boolean isBefore) {
 
-        List<MOSlot> moSlotList = this.getTopMOSlotList(bay, moSlotBlock);
+        List<MOSlot> moSlotList = this.getTopMOSlotList(bay, moSlotBlock, isBefore);
 
         List<Integer> rowList = TraverseOrder.getDRowList(moSlotList);
 
@@ -199,10 +205,18 @@ public class POChooser2 {
         return count;
     }
 
-    private List<MOSlot> getBottomMOSlotList(Map<Integer, MOSlotStack> bay, MOSlotBlock moSlotBlock) {
+    private List<MOSlot> getBottomMOSlotList(Map<Integer, MOSlotStack> bay, MOSlotBlock moSlotBlock, boolean isBefore) {
         List<MOSlot> moSlotList = new ArrayList<>();
-        for (int j = 0; j < moSlotBlock.getRowSeqList().size(); j++) {
-            int row = moSlotBlock.getRowSeqList().get(j);
+
+        List<Integer> rowSeqList;
+        if (isBefore) {//甲板下的遍历顺序
+            rowSeqList = moSlotBlock.getRowSeqListAsc();
+        } else {
+            rowSeqList = moSlotBlock.getRowSeqList();
+        }
+
+        for (int j = 0; j <rowSeqList.size(); j++) {
+            int row = rowSeqList.get(j);
             MOSlotStack moSlotStack = bay.get(row);
             if (moSlotStack != null) {
                 MOSlot moSlotBottom = moSlotStack.getBottomMOSlot();
@@ -215,9 +229,9 @@ public class POChooser2 {
     }
 
     //处理装船编moveOrder的过程
-    private int processL(WorkType wt, Map<Integer, MOSlotStack> bay, MOSlotBlock moSlotBlock) {
+    private int processL(WorkType wt, Map<Integer, MOSlotStack> bay, MOSlotBlock moSlotBlock, boolean isBefore) {
 
-        List<MOSlot> moSlotList = this.getBottomMOSlotList(bay, moSlotBlock);
+        List<MOSlot> moSlotList = this.getBottomMOSlotList(bay, moSlotBlock, isBefore);
 
         List<Integer> rowList = TraverseOrder.getLRowList(moSlotList);
 
@@ -266,7 +280,7 @@ public class POChooser2 {
         return count;
     }
 
-    public MOSlotBlock processOrderAD(MOSlotBlock moSlotBlock, WorkType[] workTypes) {
+    public MOSlotBlock processOrderAD(MOSlotBlock moSlotBlock, WorkType[] workTypes, boolean isBefore) {
 
         Map<Integer, MOSlotStack> bay01 = moSlotBlock.getBay01();
         Map<Integer, MOSlotStack> bay03 = moSlotBlock.getBay03();
@@ -285,13 +299,13 @@ public class POChooser2 {
                 if (isContinueSameTPTop(wt, moSlotBlock)) {
                     int count01 = -1, count03 = -1;
                     W:while (isContinueSameTPTopBay(wt, bay01)) {
-                        count01= this.processD(wt, bay01, moSlotBlock);
+                        count01= this.processD(wt, bay01, moSlotBlock, isBefore);
                         if (count01 == 0) {
                             break W;
                         }
                     }
                     W:while (isContinueSameTPTopBay(wt, bay03)) {
-                        count03= this.processD(wt, bay03, moSlotBlock);
+                        count03= this.processD(wt, bay03, moSlotBlock, isBefore);
                         if (count03 == 0) {
                             break W;
                         }
@@ -348,7 +362,7 @@ public class POChooser2 {
         return moSlotBlock;
     }
 
-    public MOSlotBlock processOrderBL(MOSlotBlock moSlotBlock, WorkType[] workTypes) {
+    public MOSlotBlock processOrderBL(MOSlotBlock moSlotBlock, WorkType[] workTypes, boolean isBefore) {
 
         Map<Integer, MOSlotStack> bay01 = moSlotBlock.getBay01();
         Map<Integer, MOSlotStack> bay03 = moSlotBlock.getBay03();
@@ -366,13 +380,13 @@ public class POChooser2 {
                 if (isContinueSameTPBottom(wt, moSlotBlock)) {
                     int count01 = -1, count03 = -1;
                     W:while (isContinueSameTPBottomBay(wt, bay01)) {
-                        count01= this.processL(wt, bay01, moSlotBlock);
+                        count01= this.processL(wt, bay01, moSlotBlock, isBefore);
                         if (count01 == 0) {
                             break W;
                         }
                     }
                     W:while (isContinueSameTPBottomBay(wt, bay03)) {
-                        count03= this.processL(wt, bay03, moSlotBlock);
+                        count03= this.processL(wt, bay03, moSlotBlock, isBefore);
                         if (count03 == 0) {
                             break W;
                         }

@@ -3,6 +3,7 @@ package viewFrame;
 import importDataInfo.CraneInfo;
 import importDataInfo.CwpResultInfo;
 import importDataInfo.HatchInfo;
+import importDataInfo.VesselStructureInfo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,20 +14,20 @@ import java.util.Map;
 /**
  * Created by csw on 2016/3/13.
  */
-public class CwpResultPanel1 extends JPanel{
+public class CwpResultPanel1 extends JPanel {
 
     private List<CwpResultInfo> cwpResultInfoList;
     private List<CraneInfo> craneInfoList;
-    private List<HatchInfo> hatchInfoList;
+    private List<VesselStructureInfo> vesselStructureInfoList;
 
-    public CwpResultPanel1(List<CwpResultInfo> cwpResultInfoList, List<CraneInfo> craneInfoList, List<HatchInfo> hatchInfoList) {
+    public CwpResultPanel1(List<CwpResultInfo> cwpResultInfoList, List<CraneInfo> craneInfoList, List<VesselStructureInfo> vesselStructureInfoList) {
         this.cwpResultInfoList = cwpResultInfoList;
         this.craneInfoList = craneInfoList;
-        this.hatchInfoList = hatchInfoList;
+        this.vesselStructureInfoList = vesselStructureInfoList;
         initComponents();
     }
 
-    public int width  = 1400;
+    public int width = 1400;
     public int height = 750;
     public int topMargin = 10;
     public int leftMargin = 50;
@@ -39,7 +40,7 @@ public class CwpResultPanel1 extends JPanel{
     public Font font = new Font("Courier New", Font.BOLD, 12);
 
     private void initComponents() {
-        this.setPreferredSize(new Dimension(width,height));
+        this.setPreferredSize(new Dimension(width, height));
         this.setSize(width, height);
         this.setOpaque(true);
     }
@@ -47,7 +48,7 @@ public class CwpResultPanel1 extends JPanel{
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
 
 //        g2d.setPaint(Color.white);
 //        g2d.fillRect(0, 0, width, height);
@@ -64,25 +65,25 @@ public class CwpResultPanel1 extends JPanel{
         //将每个倍的位置存起来，以便查找画作业块
         Map<Integer, Integer> bayQuery = new HashMap<>();
         int start = leftMargin;
-        for(int i = 0; i < 25; i++) {
+        for (int i = 0; i < 25; i++) {
             int X1 = start + hatchIn + 2;
-            bayQuery.put((i+1)*4-3, X1);//左边小倍
-            int X3 = start + hatchIn + hatchLength +2;
-            bayQuery.put((i+1)*4-1, X3);//右边小倍
-            int X2 = start + hatchIn + hatchLength/2;
-            bayQuery.put((i+1)*4-2, X2);//中间大倍
+            bayQuery.put((i + 1) * 4 - 3, X1);//左边小倍
+            int X3 = start + hatchIn + hatchLength + 2;
+            bayQuery.put((i + 1) * 4 - 1, X3);//右边小倍
+            int X2 = start + hatchIn + hatchLength / 2;
+            bayQuery.put((i + 1) * 4 - 2, X2);//中间大倍
             //画实线,船舱左边缘线
             g2d.setPaint(Color.BLACK);
-            g2d.drawLine(start+hatchIn, topMargin, start+hatchIn, cwpBlock + topMargin);
-            g2d.drawString((i+1)*4-3 + "", X1+3, topMargin+hatchWidth/2);
+            g2d.drawLine(start + hatchIn, topMargin, start + hatchIn, cwpBlock + topMargin);
+            g2d.drawString((i + 1) * 4 - 3 + "", X1 + 3, topMargin + hatchWidth / 2);
             //画虚线,小倍间隔线
             g2d.setPaint(Color.LIGHT_GRAY);
-            g2d.drawLine(start+hatchIn+hatchLength, topMargin, start+hatchIn+hatchLength, cwpBlock + topMargin);
+            g2d.drawLine(start + hatchIn + hatchLength, topMargin, start + hatchIn + hatchLength, cwpBlock + topMargin);
             //画实线,船舱右边缘线
             g2d.setPaint(Color.BLACK);
-            g2d.drawLine(start+hatchIn+2*hatchLength, topMargin, start+hatchIn+2*hatchLength, cwpBlock + topMargin);
-            g2d.drawString((i+1)*4-1 + "", X3+3, topMargin+hatchWidth/2);
-            start = start+hatchIn+2*hatchLength;
+            g2d.drawLine(start + hatchIn + 2 * hatchLength, topMargin, start + hatchIn + 2 * hatchLength, cwpBlock + topMargin);
+            g2d.drawString((i + 1) * 4 - 1 + "", X3 + 3, topMargin + hatchWidth / 2);
+            start = start + hatchIn + 2 * hatchLength;
         }
 
         //设置桥机颜色
@@ -92,7 +93,7 @@ public class CwpResultPanel1 extends JPanel{
                 new Color(0x22B522), new Color(0x3D3D3D), new Color(0x050505)};//16部桥机的颜色
         Map<String, Color> craneQuery = new HashMap<>();
         int k = 0;
-        for(CraneInfo craneInfo : craneInfoList) {
+        for (CraneInfo craneInfo : craneInfoList) {
             if (k > 14) {
                 k = 15;
             }
@@ -102,24 +103,24 @@ public class CwpResultPanel1 extends JPanel{
         //根据cwpResult数据,画作业块
         //得到时间的最大值
         int maxEndTime = 0;
-        for(CwpResultInfo cwpResultInfo : cwpResultInfoList) {
-            if(maxEndTime < cwpResultInfo.getWORKINGENDTIME())
+        for (CwpResultInfo cwpResultInfo : cwpResultInfoList) {
+            if (maxEndTime < cwpResultInfo.getWORKINGENDTIME())
                 maxEndTime = cwpResultInfo.getWORKINGENDTIME();
         }
         //将时间化成标准时间刻度
-        g2d.drawString("总时间:", 5, (float) (hatchWidth/2.5));
-        g2d.drawString(secToTime(maxEndTime), 5, topMargin + hatchWidth/2);//将总时间画出
-        int timeStep = maxEndTime%1800 == 0 ? maxEndTime/1800 : maxEndTime/1800 + 1;//30分钟一个刻度
-        for(int j = 0; j <= timeStep; j++) {//画时间刻度
-            String tStr = secToTime(j*1800);
-            g2d.drawString(tStr, 5, j*(cwpBlock-hatchWidth)/timeStep + topMargin + hatchWidth + 5);
-            g2d.drawLine(leftMargin-5, j*(cwpBlock-hatchWidth)/timeStep + topMargin + hatchWidth, leftMargin, j*(cwpBlock-hatchWidth)/timeStep + topMargin + hatchWidth);
+        g2d.drawString("总时间:", 5, (float) (hatchWidth / 2.5));
+        g2d.drawString(secToTime(maxEndTime), 5, topMargin + hatchWidth / 2);//将总时间画出
+        int timeStep = maxEndTime % 1800 == 0 ? maxEndTime / 1800 : maxEndTime / 1800 + 1;//30分钟一个刻度
+        for (int j = 0; j <= timeStep; j++) {//画时间刻度
+            String tStr = secToTime(j * 1800);
+            g2d.drawString(tStr, 5, j * (cwpBlock - hatchWidth) / timeStep + topMargin + hatchWidth + 5);
+            g2d.drawLine(leftMargin - 5, j * (cwpBlock - hatchWidth) / timeStep + topMargin + hatchWidth, leftMargin, j * (cwpBlock - hatchWidth) / timeStep + topMargin + hatchWidth);
         }
         //画作业块
         Map<String, Long> countQuery = new HashMap<>();//每个倍位的moveCount数统计
         List<String> strList;
         String strNew;
-        for(CwpResultInfo cwpResultInfo : cwpResultInfoList) {
+        for (CwpResultInfo cwpResultInfo : cwpResultInfoList) {
             String craneId = cwpResultInfo.getCRANEID();//得到桥机号
             int bayId = Integer.valueOf(cwpResultInfo.getHATCHBWID());//得到倍位号
             int startTime = cwpResultInfo.getWORKINGSTARTTIME();
@@ -128,43 +129,43 @@ public class CwpResultPanel1 extends JPanel{
             Long craneSeq = cwpResultInfo.getCraneSeq();
             Long hatchSeq = cwpResultInfo.getHatchSeq();
             String ldFlag = cwpResultInfo.getLDULD();
-            if(countQuery.get(bayId+"") != null) {
-                countQuery.put(bayId+"", countQuery.get(bayId + "") + moveCount);
+            if (countQuery.get(bayId + "") != null) {
+                countQuery.put(bayId + "", countQuery.get(bayId + "") + moveCount);
             } else {
                 countQuery.put(bayId + "", moveCount);
             }
             int x = bayQuery.get(bayId);
-            int y = topMargin + hatchWidth + startTime*(cwpBlock - hatchWidth - topMargin)/maxEndTime;
-            int w = bayId%2 == 0 ? hatchLength : hatchLength-4;//作业块宽度
-            int h = (endTime - startTime)*(cwpBlock - hatchWidth - topMargin)/maxEndTime;//作业块长度
+            int y = topMargin + hatchWidth + startTime * (cwpBlock - hatchWidth - topMargin) / maxEndTime;
+            int w = bayId % 2 == 0 ? hatchLength : hatchLength - 4;//作业块宽度
+            int h = (endTime - startTime) * (cwpBlock - hatchWidth - topMargin) / maxEndTime;//作业块长度
             g2d.setPaint(craneQuery.get(craneId));
             g2d.drawRect(x, y, w, h);
             g2d.fillRect(x, y, w, h);
 
             //画块上面的moveCount数
             g2d.setPaint(Color.BLACK);
-            y = topMargin + hatchWidth + startTime*(cwpBlock - hatchWidth - topMargin)/maxEndTime;
-            h = (endTime - startTime)*(cwpBlock - hatchWidth - topMargin)/maxEndTime;//作业块长度
-            y = y + h/2;
-            g2d.drawString(String.valueOf(moveCount), x+10, y);
+            y = topMargin + hatchWidth + startTime * (cwpBlock - hatchWidth - topMargin) / maxEndTime;
+            h = (endTime - startTime) * (cwpBlock - hatchWidth - topMargin) / maxEndTime;//作业块长度
+            y = y + h / 2;
+            g2d.drawString(String.valueOf(moveCount), x + 10, y);
 
             //画装卸标志
             g2d.setPaint(Color.BLACK);
-            g2d.drawString(ldFlag, x+2, y);
+            g2d.drawString(ldFlag, x + 2, y);
 
 //            //画舱和桥机的顺序
 //            g2d.drawString(String.valueOf(craneSeq), x+hatchLength, y);
 //            g2d.drawString(String.valueOf(hatchSeq), x+hatchLength+4, y);
         }
         //遍历Map，画出每个倍位的moveCount数
-        if(countQuery != null) {
-            for(Map.Entry<String, Long> entry : countQuery.entrySet()) {
+        if (countQuery != null) {
+            for (Map.Entry<String, Long> entry : countQuery.entrySet()) {
                 int x = bayQuery.get(Integer.valueOf(entry.getKey()));
                 g2d.setPaint(Color.red);
-                if(Integer.valueOf(entry.getKey())%2 == 0) {
-                    g2d.drawString(entry.getValue()+"", x+2, 20);
-                }else{
-                    g2d.drawString(entry.getValue()+"", x+2, 50);
+                if (Integer.valueOf(entry.getKey()) % 2 == 0) {
+                    g2d.drawString(entry.getValue() + "", x + 2, 20);
+                } else {
+                    g2d.drawString(entry.getValue() + "", x + 2, 50);
                 }
             }
         }

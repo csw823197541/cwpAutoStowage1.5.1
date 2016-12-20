@@ -15,6 +15,7 @@ public class MOSlotBlock {
 
     private List<Integer> rowSeqList;           //排号顺序,默认偶数侧在前
 
+    private List<Integer> rowSeqListAsc; //排号由小到大顺序
 
     private List<Integer> tierNoListAsc;       //层号列表,递增
 
@@ -27,6 +28,7 @@ public class MOSlotBlock {
         bay01 = new HashMap<>();
         bay03 = new HashMap<>();
         rowSeqList = new ArrayList<>();
+        rowSeqListAsc = new ArrayList<>();
         tierNoListAsc = new ArrayList<>();
     }
 
@@ -86,10 +88,16 @@ public class MOSlotBlock {
         //甲板上,从左往右
         for (int i = moSlotBlock.vMaxRowNo % 2 == 0 ? moSlotBlock.vMaxRowNo : moSlotBlock.vMaxRowNo - 1; i >= moSlotBlock.vMinRowNo; i = i - 2) {//偶数侧
             moSlotBlock.rowSeqList.add(i);
+            moSlotBlock.rowSeqListAsc.add(i);
         }
         for (int i = moSlotBlock.vMinRowNo % 2 == 0 ? moSlotBlock.vMinRowNo + 1 : moSlotBlock.vMinRowNo; i <= moSlotBlock.vMaxRowNo; i = i + 2) {//奇数侧
             moSlotBlock.rowSeqList.add(i);
+            moSlotBlock.rowSeqListAsc.add(i);
         }
+
+        //生成遍历顺序，排号从小到大
+        Collections.sort(moSlotBlock.rowSeqListAsc);
+
         //对层号进行排序
         Collections.sort(moSlotBlock.tierNoListAsc);
 
@@ -259,6 +267,10 @@ public class MOSlotBlock {
 
     public List<Integer> getRowSeqList() {
         return rowSeqList;
+    }
+
+    public List<Integer> getRowSeqListAsc() {
+        return rowSeqListAsc;
     }
 
     //根据MOSlotPosition得到对于的stack

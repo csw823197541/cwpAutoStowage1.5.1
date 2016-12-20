@@ -82,7 +82,7 @@ public class MaShiJiKanPaLa {
             workFlowMap.put(str, Arrays.asList(1, 2, 3));
         }
         Long moveOrderAndWorkFlowNo = 2L;
-        List<PreStowageData> resultList = GenerateMoveOrder.getMoveOrderAndWorkFlow(moveOrderAndWorkFlowNo, preStowageDataList, vesselStructureInfoList, workFlowMap);
+        List<PreStowageData> resultList = GenerateMoveOrder.getMoveOrderAndWorkFlow(moveOrderAndWorkFlowNo, voyageInfoList, preStowageDataList, vesselStructureInfoList, workFlowMap);
         System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(moveOrderAndWorkFlowNo));
         PreStowageDataFrame preStowageFrame2 = new PreStowageDataFrame(resultList);
         preStowageFrame2.setVisible(true);

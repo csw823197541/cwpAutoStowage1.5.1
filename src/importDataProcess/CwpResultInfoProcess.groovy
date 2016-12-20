@@ -73,13 +73,18 @@ class CwpResultInfoProcess {
         try{
 
             //将预配信息进行处理，根据"舱号.moveOrder"得到作业工艺和装卸标志
-            Map<String, PreStowageData> preStowageDataMap = new HashMap<>();
+            Map<String, List<PreStowageData>> preStowageDataMap = new HashMap<>();
             for(PreStowageData preStowageData : preStowageDataList) {
                 String hatchId = preStowageData.getVHTID();
                 Integer moveOrder = preStowageData.getMOVEORDER();
                 String hatchIdMoveOrder = hatchId + "." + moveOrder;
-                preStowageDataMap.put(hatchIdMoveOrder, preStowageData);
-
+                if (preStowageDataMap.get(hatchIdMoveOrder) != null) {
+                    preStowageDataMap.get(hatchIdMoveOrder).add(preStowageData);
+                } else {
+                    List<PreStowageData> preStowageDatas = new ArrayList<>();
+                    preStowageDatas.add(preStowageData);
+                    preStowageDataMap.put(hatchIdMoveOrder, preStowageDatas);
+                }
             }
 
             Date voyageStartTime = voyageInfoList.get(0).getVOTPWKSTTM();
@@ -108,8 +113,20 @@ class CwpResultInfoProcess {
                 String hm = cwpResultInfo.HATCHID + "." + cwpResultInfo.startMoveID
 
                 if (preStowageDataMap.get(hm) != null) {
-                    cwpResultInfo.MOVETYPE = preStowageDataMap.get(hm).getWORKFLOW();
-                    cwpResultInfo.LDULD = preStowageDataMap.get(hm).getLDULD();
+                    if (preStowageDataMap.get(hm).size() == 2) {
+                        cwpResultInfo.MOVETYPE = preStowageDataMap.get(hm).get(0).getWORKFLOW();
+                        cwpResultInfo.LDULD = preStowageDataMap.get(hm).get(0).getLDULD();
+                        Integer l = Integer.valueOf(preStowageDataMap.get(hm).get(0).getVBYBAYID());
+                        Integer r = Integer.valueOf(preStowageDataMap.get(hm).get(1).getVBYBAYID())
+                        Integer bayInt = (l + r) / 2;
+                        String bay = String.format("%02d", bayInt);
+                        cwpResultInfo.HATCHBWID = bay;
+                    } else {
+                        cwpResultInfo.MOVETYPE = preStowageDataMap.get(hm).get(0).getWORKFLOW();
+                        cwpResultInfo.LDULD = preStowageDataMap.get(hm).get(0).getLDULD();
+                        cwpResultInfo.HATCHBWID = preStowageDataMap.get(hm).get(0).getVBYBAYID();
+                    }
+
                 } else {
                     println "error hatchId.moveOrder: " + hm;
                 }

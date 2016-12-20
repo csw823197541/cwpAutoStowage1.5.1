@@ -2,7 +2,9 @@ package generateResult;
 
 import importDataInfo.PreStowageData;
 import importDataInfo.VesselStructureInfo;
+import importDataInfo.VoyageInfo;
 import importDataProcess.ExceptionData;
+import importDataProcess.ImportData;
 import mog.entity.MOSlot;
 import mog.entity.MOSlotBlock;
 import mog.entity.MOSlotPosition;
@@ -18,6 +20,7 @@ import java.util.*;
 public class GenerateMoveOrder {
 
     public static List<PreStowageData> getMoveOrderAndWorkFlow(Long batchNum,
+                                                               List<VoyageInfo> voyageInfoList,
                                                                List<PreStowageData> preStowageDataList,
                                                                List<VesselStructureInfo> vesselStructureInfoList,
                                                                Map<String, List<Integer>> workFlowMap) {
@@ -64,7 +67,7 @@ public class GenerateMoveOrder {
         boolean isRight = true;
         String errorHatchStr = "";
         for (String str : VHTIDs) {//逐舱遍历
-            try{
+            try {
                 List<PreStowageData> preStowageList = stringListMap1.get(str);
 
                 //按装卸船、甲板上下分开
@@ -96,10 +99,23 @@ public class GenerateMoveOrder {
                     int tierInt = Integer.valueOf(vesselStructureInfo.getVTRTIERNO());
                     moSlotPositionList.add(new MOSlotPosition(bayInt, rowInt, tierInt));
                 }
+
                 MOSlotBlock initMOSlotBlockAD = MOSlotBlock.buildEmptyMOSlotBlock(moSlotPositionList);
                 MOSlotBlock initMOSlotBlockBD = MOSlotBlock.buildEmptyMOSlotBlock(moSlotPositionList);
                 MOSlotBlock initMOSlotBlockBL = MOSlotBlock.buildEmptyMOSlotBlock(moSlotPositionList);
                 MOSlotBlock initMOSlotBlockAL = MOSlotBlock.buildEmptyMOSlotBlock(moSlotPositionList);
+
+                //判断靠泊方向，true为正向（奇数排号靠近海侧）
+                boolean isPositive = true;
+                if ("L".equals(voyageInfoList.get(0).getAnchorDirection())) {
+                    ImportData.isPositive = false;
+                    isPositive = false;
+                    Collections.reverse(initMOSlotBlockBL.getRowSeqList());
+                    Collections.reverse(initMOSlotBlockAL.getRowSeqList());
+                } else {
+                    Collections.reverse(initMOSlotBlockAD.getRowSeqList());
+                    Collections.reverse(initMOSlotBlockBD.getRowSeqList());
+                }
 
                 //指定舱的作业工艺------开始
                 //获得该舱选择的作业工艺
@@ -168,20 +184,27 @@ public class GenerateMoveOrder {
                 }
                 //指定舱的作业工艺------结束
 
+//                //判断靠泊方向，true为正向（奇数排号靠近海侧）
+//                boolean isPositive = true;
+//                if ("R".equals(voyageInfoList.get(0).getAnchorDirection())) {
+//                    ImportData.isPositive = false;
+//                    isPositive = false;
+//                }
+
                 //对甲板上卸船的block调用生成作业工艺的方法
                 MOSlotBlock moSlotBlockAD = PTProcess.PTChooserProcess(preStowageListAD, initMOSlotBlockAD, PTSeq);
                 //对甲板上卸船的block调用编MoveOrder的方法
                 POChooser2 poChooser = new POChooser2();
-                poChooser.processOrderAD(moSlotBlockAD, workTypesD);
+                poChooser.processOrderAD(moSlotBlockAD, workTypesD, false);
 
                 MOSlotBlock moSlotBlockBD = PTProcess.PTChooserProcess(preStowageListBD, initMOSlotBlockBD, PTSeq);
-                poChooser.processOrderAD(moSlotBlockBD, workTypesD);
+                poChooser.processOrderAD(moSlotBlockBD, workTypesD, true);
 
                 MOSlotBlock moSlotBlockBL = PTProcess.PTChooserProcess(preStowageListBL, initMOSlotBlockBL, PTSeq);
-                poChooser.processOrderBL(moSlotBlockBL, workTypesL);
+                poChooser.processOrderBL(moSlotBlockBL, workTypesL, true);
 
                 MOSlotBlock moSlotBlockAL = PTProcess.PTChooserProcess(preStowageListAL, initMOSlotBlockAL, PTSeq);
-                poChooser.processOrderBL(moSlotBlockAL, workTypesL);
+                poChooser.processOrderBL(moSlotBlockAL, workTypesL, false);
 
                 //完成作业工艺和MoveOrder后,将数据进行保存
                 for (PreStowageData preStowageData : preStowageList) {

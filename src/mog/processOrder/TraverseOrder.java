@@ -15,7 +15,6 @@ public class TraverseOrder {
 
     public static List<Integer> getDRowList(List<MOSlot> moSlotList) {
         List<Integer> rowList = new ArrayList<>();
-
         if (moSlotList != null) {
             moSlotList = sortByTierDESC(moSlotList);
             for (MOSlot moSlot : moSlotList) {
@@ -27,7 +26,6 @@ public class TraverseOrder {
 
     public static List<Integer> getLRowList(List<MOSlot> moSlotList) {
         List<Integer> rowList = new ArrayList<>();
-
         if (moSlotList != null) {
             moSlotList = sortByTierASC(moSlotList);
             for (MOSlot moSlot : moSlotList) {
@@ -49,7 +47,6 @@ public class TraverseOrder {
     }
 
     private static List<MOSlot> sortByTierDESC(List<MOSlot> moSlotList) {
-
         Collections.sort(moSlotList, new Comparator<MOSlot>() {
             @Override
             public int compare(MOSlot o1, MOSlot o2) {

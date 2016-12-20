@@ -96,7 +96,7 @@ public class VesselBayOrderPanel extends JPanel {
                     g2d.setPaint(Color.red);
                     g2d.drawString(tag1, x+10, y + 8);
                 }
-                if (bayInt % 4 == 2) {
+                if (bayInt % 4 == 2 || bayInt % 4 == 0) {
                     g2d.setPaint(Color.BLUE);
                     g2d.drawString(tag1, x+10, y + 8);
                 }

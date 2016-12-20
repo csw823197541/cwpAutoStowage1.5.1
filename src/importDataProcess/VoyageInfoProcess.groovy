@@ -43,6 +43,7 @@ class VoyageInfoProcess {
                 }
                 voyageInfo.STARTPOSITION = Integer.valueOf(voyage.STARTPOSITION)
                 voyageInfo.ENDPOSITION = Integer.valueOf(voyage.ENDPOSITION)
+                voyageInfo.anchorDirection = voyage.ANCHORDIRECTION
                 voyageInfoList.add(voyageInfo)
             }
         }catch (Exception e){

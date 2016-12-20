@@ -28,6 +28,7 @@ public class GenerateMoveInfoResult {
                 }
 
                 Long voyId = voyageInfoList.get(0).getVOTVOYID().longValue();
+//                Long voyId = 258287L;
 
                 //将预配信息进行处理，根据船箱位得到卸船的箱号信息
                 Map<String, PreStowageData> preStowageDataMapD = new HashMap<>();

@@ -26,4 +26,6 @@ public class ImportData {
 
     public static Map<String, List<PreStowageData>> preStowageDataMap;  //预配位对应的箱子
 
+    public static boolean isPositive = true;//船的停靠方向，true为正向（奇数排号靠近海侧）
+
 }

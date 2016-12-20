@@ -15,6 +15,16 @@ public class VoyageInfo {
     private Integer STARTPOSITION;//船头停泊位置
     private Integer ENDPOSITION;//船尾停泊位置
 
+    private String anchorDirection;//靠泊方向,R:反向，L:正向
+
+    public String getAnchorDirection() {
+        return anchorDirection;
+    }
+
+    public void setAnchorDirection(String anchorDirection) {
+        this.anchorDirection = anchorDirection;
+    }
+
     public Integer getVOTVOYID() {
         return VOTVOYID;
     }
