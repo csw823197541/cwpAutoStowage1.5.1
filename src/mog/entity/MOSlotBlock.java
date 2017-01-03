@@ -36,12 +36,28 @@ public class MOSlotBlock {
     public static MOSlotBlock buildEmptyMOSlotBlock(List<MOSlotPosition> moSlotPositionList) {
         MOSlotBlock moSlotBlock = new MOSlotBlock();
         moSlotBlock.slotPositions = moSlotPositionList;
+        //遍历判断第一个贝位和第二个贝位
+        Set<Integer> bayIntegerSet = new HashSet<>();
+        for(int i = 0; i < moSlotPositionList.size(); i++){
+            bayIntegerSet.add(moSlotPositionList.get(i).getBayInt());
+        }
+        int firstBay=-1,secondBay=-1;
+        List<Integer> bayIntegerList = new ArrayList<>(bayIntegerSet);
+        Collections.sort(bayIntegerList);
+        if(bayIntegerList.size()==1){
+           firstBay = bayIntegerList.get(0);
+        }
+        else {
+            firstBay = bayIntegerList.get(0);
+            secondBay = bayIntegerList.get(bayIntegerList.size()-1);
+        }
+
 
         for (int i = 0; i < moSlotPositionList.size(); i++) {
             MOSlotPosition moSlotPosition = moSlotPositionList.get(i);
             MOSlot moSlot = new MOSlot(moSlotPosition);
             //初始化空的MOSlot
-            if (moSlotPosition.getBayInt() % 4 == 1) { //第一个小贝
+            if (moSlotPosition.getBayInt() == firstBay) { //第一个小贝
                 if (moSlotBlock.bay01.get(moSlotPosition.getRowInt()) != null) {
                     moSlotBlock.bay01.get(moSlotPosition.getRowInt()).putMOSlot(moSlotPosition.getTierInt(), moSlot);
                 } else {
@@ -49,7 +65,7 @@ public class MOSlotBlock {
                     moSlotBlock.bay01.get(moSlotPosition.getRowInt()).putMOSlot(moSlotPosition.getTierInt(), moSlot);
                 }
             }
-            if (moSlotPosition.getBayInt() % 4 == 3) { //第二个小贝
+            if (moSlotPosition.getBayInt() == secondBay) { //第二个小贝
                 if (moSlotBlock.bay03.get(moSlotPosition.getRowInt()) != null) {
                     moSlotBlock.bay03.get(moSlotPosition.getRowInt()).putMOSlot(moSlotPosition.getTierInt(), moSlot);
                 } else {
