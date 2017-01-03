@@ -79,7 +79,7 @@ public class GuNeiTeMaShiJi {
         System.out.println( "舱位数：" + VHTIDs.size());
         Map<String, List<Integer>> workFlowMap = new HashMap<>();
         for (String str : VHTIDs) {
-            workFlowMap.put(str, Arrays.asList(1));
+            workFlowMap.put(str, Arrays.asList(1, 2));
         }
         Long moveOrderAndWorkFlowNo = 2L;
         List<PreStowageData> resultList = GenerateMoveOrder.getMoveOrderAndWorkFlow(moveOrderAndWorkFlowNo, voyageInfoList, preStowageDataList, vesselStructureInfoList, workFlowMap);

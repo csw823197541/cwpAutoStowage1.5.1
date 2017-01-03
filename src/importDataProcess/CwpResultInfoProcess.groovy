@@ -2,6 +2,7 @@ package importDataProcess
 
 import groovy.json.JsonSlurper
 import importDataInfo.CwpResultInfo
+import importDataInfo.CwpResultMoveInfo
 import importDataInfo.PreStowageData
 import importDataInfo.VoyageInfo
 
@@ -134,10 +135,16 @@ class CwpResultInfoProcess {
 //                cwpResultInfo.MOVETYPE = cwpResult.MOVETYPE
 //                cwpResultInfo.LDULD = cwpResult.mLD
 
-                cwpResultInfo.workingStartTime = new Date(stLong + cwpResultInfo.getREALWORKINGSTARTTIME()*1000)
-                cwpResultInfo.workingEndTime = new Date(stLong + cwpResultInfo.getWORKINGENDTIME()*1000)
-                cwpResultInfo.craneWorkStartTime = new Date(stLong + cwpResultInfo.getWORKINGSTARTTIME()*1000)
+//                cwpResultInfo.workingStartTime = new Date(stLong + cwpResultInfo.getREALWORKINGSTARTTIME()*1000)
+//                cwpResultInfo.workingEndTime = new Date(stLong + cwpResultInfo.getWORKINGENDTIME()*1000)
+//                cwpResultInfo.craneWorkStartTime = new Date(stLong + cwpResultInfo.getWORKINGSTARTTIME()*1000)
                 cwpResultInfoList.add(cwpResultInfo)
+            }
+            cwpResultInfoList = changeWorkTime(cwpResultInfoList);
+            for (CwpResultInfo cwpResultInfo : cwpResultInfoList) {
+                cwpResultInfo.setWorkingStartTime(new Date(stLong + cwpResultInfo.getWORKINGSTARTTIME()*1000));
+                cwpResultInfo.setWorkingEndTime(new Date(stLong + cwpResultInfo.getWORKINGENDTIME()*1000));
+                cwpResultInfo.setCraneWorkStartTime(new Date(stLong + cwpResultInfo.getWORKINGSTARTTIME()*1000));
             }
 
 
@@ -155,5 +162,40 @@ class CwpResultInfoProcess {
         }
     }
 
+    public static List<CwpResultInfo> changeWorkTime(List<CwpResultInfo> cwpResultInfoList) {
+        List<CwpResultInfo> resultInfoList = new ArrayList<>();
+        Map<String, List<CwpResultInfo>> cwpResultMap = new HashMap<>()
+        for (CwpResultInfo cwpResultInfo : cwpResultInfoList) {
+            if (!cwpResultMap.containsKey(cwpResultInfo.getCRANEID())) {
+                List<CwpResultInfo> cwpResultInfos = new ArrayList<>();
+                cwpResultInfos.add(cwpResultInfo);
+                cwpResultMap.put(cwpResultInfo.getCRANEID(), cwpResultInfos);
+            } else {
+                cwpResultMap.get(cwpResultInfo.getCRANEID()).add(cwpResultInfo);
+            }
+        }
+        for (String craneId : cwpResultMap.keySet()) {
+            List<CwpResultInfo> cwpResults = cwpResultMap.get(craneId);
+            sortByStartTime(cwpResults);
+            int moveTime = cwpResults.get(0).getREALWORKINGSTARTTIME() - cwpResults.get(0).getWORKINGSTARTTIME();
+            for (CwpResultInfo cwpResultInfo : cwpResults) {
+                cwpResultInfo.setWORKINGSTARTTIME(cwpResultInfo.getREALWORKINGSTARTTIME() - moveTime);
+                cwpResultInfo.setWORKINGENDTIME(cwpResultInfo.getWORKINGENDTIME() - moveTime);
+                resultInfoList.add(cwpResultInfo);
+            }
+        }
+        return resultInfoList;
+    }
 
+    private static List<CwpResultInfo> sortByStartTime(List<CwpResultInfo> valueList) {
+
+        Collections.sort(valueList, new Comparator<CwpResultInfo>() {
+            @Override
+            public int compare(CwpResultInfo o1, CwpResultInfo o2) {
+                return o1.getWORKINGSTARTTIME().compareTo(o2.getWORKINGSTARTTIME());
+            }
+        });
+
+        return valueList;
+    }
 }

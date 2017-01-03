@@ -45,30 +45,18 @@ class GenerateCwpResult {
 
             try {
                 int craneSize = craneInfoList.size();
-//                Collections.sort(craneInfoList, new Comparator<CraneInfo>() {
-//                    @Override
-//                    int compare(CraneInfo o1, CraneInfo o2) {
-//                        return o1.CURRENTPOSITION.compareTo(o2.CURRENTPOSITION);
-//                    }
-//                });
                 CraneInfo craneInfo0 = craneInfoList.get(0);
                 CraneInfo craneInfoI = craneInfoList.get(craneInfoList.size() - 1);
                 String increaseTime = String.valueOf((craneInfoI.getWORKINGTIMERANGES().get(0).getWORKSTARTTIME().time - craneInfo0.getWORKINGTIMERANGES().get(0).getWORKSTARTTIME().time) / 1000);
                 String decreaseTime = String.valueOf((craneInfoI.getWORKINGTIMERANGES().get(0).getWORKENDTIME().time - craneInfoI.getWORKINGTIMERANGES().get(0).getWORKSTARTTIME().time) / 1000);
-//                if ("0".equals(increaseTime)) {
-//
-//                    cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, craneSize + "", "1000000", "2000000");
-//                } else {
-//                    cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, craneSize - 1 + "", increaseTime, decreaseTime);
-//                }
+
+                //计算桥机资源时间是否与
 
                 cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, craneSize + "", increaseTime, decreaseTime);
-//                cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, "4", "1000000", "2000000");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-//            cwpResultStr = CallCwpTest.cwp(craneJsonStr, hatchJsonStr, moveJsonStr, craneSize, increaseTime, decreaseTime)
 
             System.out.println("cwp算法返回的json字符串:" + cwpResultStr);
             if (cwpResultStr != null) {
@@ -92,7 +80,6 @@ class GenerateCwpResult {
                 } else {
                     ExceptionData.exceptionMap.put(batchNum, "success! cwp按船期完成。")
                 }
-//                cwpResultInfoList = CwpResultInfoProcess.getCwpResultInfo(cwpResultStr, voyageInfoList)
             } else {
                 ExceptionData.exceptionMap.put(batchNum, "error! cwp发现未知问题，无法返回结果。")
                 System.out.println("cwp算法没有返回结果！")
@@ -258,12 +245,16 @@ class GenerateCwpResult {
                 for (int j = 0; j < hatchIdList.size(); j++) {//查找到驾驶室在哪个舱
                     List<String> bayWeiList = hatchBayWeiMap.get(hatchIdList.get(j)).toList()
                     if (bayWeiList.contains(cabBayWei)) {//取后面一个舱号
-                        cabHatchId = hatchIdList.get(j + 1)
+                        if (j + 1 <= hatchIdList.size() - 1) {
+                            cabHatchId = hatchIdList.get(j + 1)
+                        }
                     }
                     if (bayWeiList.size() == 2) {
                         if (cabPosition == (Integer.valueOf(bayWeiList.get(0)) +
                                 Integer.valueOf(bayWeiList.get(1))) / 2) {
-                            cabHatchId = hatchIdList.get(j + 1)
+                            if (j + 1 <= hatchIdList.size() - 1) {
+                                cabHatchId = hatchIdList.get(j + 1)
+                            }
                         }
                     }
                 }

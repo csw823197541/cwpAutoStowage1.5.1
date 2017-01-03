@@ -47,7 +47,7 @@ public class CwpResultInfoToMove {
 
                 Long moveCount = cwpResultInfo.getMOVECOUNT();
                 if (moveCount != 0) {
-                    int startTime = cwpResultInfo.getREALWORKINGSTARTTIME();
+                    int startTime = cwpResultInfo.getWORKINGSTARTTIME();
                     int endTime = cwpResultInfo.getWORKINGENDTIME();
                     Date startTimeDate = cwpResultInfo.getWorkingStartTime();
                     int singleMoveWorkTime = (endTime-startTime)/moveCount.intValue(); //做一个move的时间
