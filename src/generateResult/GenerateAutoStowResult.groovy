@@ -19,7 +19,8 @@ public class GenerateAutoStowResult {
                                                       List<ContainerInfo> containerInfoList,
                                                       List<ContainerAreaInfo> containerAreaInfoList,
                                                       List<PreStowageData> preStowageDataList,
-                                                      List<CwpResultMoveInfo> cwpResultMoveInfoList) {
+                                                      List<CwpResultMoveInfo> cwpResultMoveInfoList,
+                                                      List<StructuralRuleInfo> structuralRuleInfoList) {
         ExceptionData.exceptionMap.put(batchNum, "接口没有执行。");
         List<AutoStowResultInfo> autoStowResultInfoList = new ArrayList<AutoStowResultInfo>();
 
@@ -32,10 +33,14 @@ public class GenerateAutoStowResult {
         //处理预配信息
         String preStowageStr = AutoStowInputProcess.getPreStowageJsonStr(batchNum, preStowageDataList);
 
+        //处理船舶规范信息
+        String structuralRuleStr = AutoStowInputProcess.getStructuralRuleStr(batchNum, structuralRuleInfoList);
+
         try {//将自动配载要用的结果写在文件里，让算法去读这个文件
             FileUtil.writeToFile("toAutoStowJsonData/Container.txt", containerStr);
             FileUtil.writeToFile("toAutoStowJsonData/PreStowage.txt", preStowageStr);
             FileUtil.writeToFile("toAutoStowJsonData/ContainerArea.txt", containerAreaStr);
+            FileUtil.writeToFile("toAutoStowJsonData/StructuralRule.txt", structuralRuleStr);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -96,7 +96,7 @@ public class DiZhongHaiMaGeLiTe {
         Long cwpNo1 = 31L;
         List<CwpResultInfo> cwpResultInfoTransformList =  CwpResultInfoTransform.getTransformResult(cwpNo1, cwpResultInfoList);
         System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(cwpNo1));
-        CwpResultFrame cwpResultFrame = new CwpResultFrame(cwpResultInfoTransformList, craneInfoList, null);
+        CwpResultFrame cwpResultFrame = new CwpResultFrame(cwpResultInfoTransformList, craneInfoList, vesselStructureInfoList);
         cwpResultFrame.setVisible(true);
 
         //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分

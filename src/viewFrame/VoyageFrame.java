@@ -52,7 +52,7 @@ public class VoyageFrame extends JFrame {
                         DefaultTableModel tableModel = new DefaultTableModel();
 
                         //增加列名
-                        ArrayList<String> colList = new ArrayList<String>(Arrays.asList("航次", "船舶", "开工时间", "完工时间", "船头位置", "船尾位置"));
+                        ArrayList<String> colList = new ArrayList<String>(Arrays.asList("航次", "船舶", "开工时间", "完工时间", "船头位置", "船尾位置", "靠泊方向"));
                         for (String col : colList) {
 //                            System.out.println(col);
                             tableModel.addColumn(col);
@@ -62,13 +62,14 @@ public class VoyageFrame extends JFrame {
                         List<VoyageInfo> voyageInfoList = this.voyageInfoList;
                         System.out.print("生成内容");
                         for (VoyageInfo voyageInfo : voyageInfoList) {
-                            Object[] rowData = new Object[6];
+                            Object[] rowData = new Object[7];
                             rowData[0] = voyageInfo.getVOTVOYID();
                             rowData[1] = voyageInfo.getVESSELID();
                             rowData[2] = sdf.format(voyageInfo.getVOTPWKSTTM());
                             rowData[3] = sdf.format(voyageInfo.getVOTPWKENTM());
                             rowData[4] = voyageInfo.getSTARTPOSITION();
                             rowData[5] = voyageInfo.getENDPOSITION();
+                            rowData[6] = voyageInfo.getAnchorDirection();
                             tableModel.addRow(rowData);
                         }
                         this.tableWQL.setModel(tableModel);

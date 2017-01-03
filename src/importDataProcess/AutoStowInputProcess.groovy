@@ -5,6 +5,7 @@ import importDataInfo.ContainerAreaInfo
 import importDataInfo.ContainerInfo
 import importDataInfo.CwpResultMoveInfo
 import importDataInfo.PreStowageData
+import importDataInfo.StructuralRuleInfo
 
 import java.text.SimpleDateFormat
 
@@ -222,6 +223,47 @@ class AutoStowInputProcess {
             return null;
         }else {
             System.out.println("生成cwp结果信息json格式成功！")
+            return result
+        }
+    }
+
+    public static String getStructuralRuleStr(long batchNum, List<StructuralRuleInfo> structuralRuleInfoList) {
+        boolean isError = false;
+        String result = null
+
+        if(structuralRuleInfoList != null) {
+            try{
+                List<Map<String, Object>> list = new ArrayList<>()
+                assert structuralRuleInfoList instanceof List
+                structuralRuleInfoList.each {it->
+                    Map<String, Object> map = new HashMap<String, Object>()
+                    map.put("vesselHatchId", it.vesselHatchId)
+                    map.put("bayNo", it.bayNo)
+                    map.put("rowNo", it.rowNo)
+                    map.put("tireNo", it.tireNo)
+                    map.put("size20AllWeight", it.size20AllWeight)
+                    map.put("size40AllWeight", it.size40AllWeight)
+                    map.put("highConNumber", it.highConNumber)
+                    list.add(map)
+                }
+                def builder = new JsonBuilder(list)
+                result = builder.toString()
+                println result
+
+            }catch (Exception e){
+                System.out.println("生成船舶规范信息json格式时，发现数据异常！")
+                isError = true;
+                e.printStackTrace()
+            }
+        }else {
+            System.out.println("没有cwp结果信息！")
+        }
+        if(isError) {
+            System.out.println("生成船舶规范信息json格式失败！")
+            ExceptionData.exceptionMap.put(batchNum, "生成船舶规范信息json格式时，发现数据异常！")
+            return null;
+        }else {
+            System.out.println("生成船舶规范信息json格式成功！")
             return result
         }
     }

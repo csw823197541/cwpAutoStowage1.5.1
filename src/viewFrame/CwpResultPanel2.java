@@ -2,7 +2,6 @@ package viewFrame;
 
 import importDataInfo.CraneInfo;
 import importDataInfo.CwpResultInfo;
-import importDataInfo.HatchInfo;
 import importDataInfo.VesselStructureInfo;
 
 import javax.swing.*;
@@ -13,13 +12,13 @@ import java.util.List;
 /**
  * Created by csw on 2016/3/13.
  */
-public class CwpResultPanel1 extends JPanel {
+public class CwpResultPanel2 extends JPanel {
 
     private List<CwpResultInfo> cwpResultInfoList;
     private List<CraneInfo> craneInfoList;
     private List<VesselStructureInfo> vesselStructureInfoList;
 
-    public CwpResultPanel1(List<CwpResultInfo> cwpResultInfoList, List<CraneInfo> craneInfoList, List<VesselStructureInfo> vesselStructureInfoList) {
+    public CwpResultPanel2(List<CwpResultInfo> cwpResultInfoList, List<CraneInfo> craneInfoList, List<VesselStructureInfo> vesselStructureInfoList) {
         this.cwpResultInfoList = cwpResultInfoList;
         this.craneInfoList = craneInfoList;
         this.vesselStructureInfoList = vesselStructureInfoList;
@@ -64,9 +63,14 @@ public class CwpResultPanel1 extends JPanel {
         Collections.sort(vesselStructureInfoList, new Comparator<VesselStructureInfo>() {
             @Override
             public int compare(VesselStructureInfo o1, VesselStructureInfo o2) {
-                return o1.getVHTPOSITION().compareTo(o2.getVHTPOSITION());
+                if (o1.getVHTPOSITION() == null || o2.getVHTPOSITION() == null) {
+                    return o1.getVHTID().compareTo(o2.getVHTID());
+                } else {
+                    return o1.getVHTPOSITION().compareTo(o2.getVHTPOSITION());
+                }
             }
         });
+
         for (VesselStructureInfo vesselStructureInfo : vesselStructureInfoList) {
             Integer bayInt = Integer.valueOf(vesselStructureInfo.getVBYBAYID());
             String hatchId = vesselStructureInfo.getVHTID();
@@ -77,38 +81,94 @@ public class CwpResultPanel1 extends JPanel {
             }
         }
 
-//        Map<Integer, Integer> bayQuery = new HashMap<>();
-//        int start = leftMargin;
-//        for (String hatchId : hatchBayMap.keySet()) {
-//            Set<Integer> baySet = hatchBayMap.get(hatchId);
-//            for (Integer bayInt : baySet) {
-//                bayQuery.put(bayInt, start + hatchIn + 2);
-//            }
-//        }
-
         //画出船舱
         //将每个倍的位置存起来，以便查找画作业块
         Map<Integer, Integer> bayQuery = new HashMap<>();
         int start = leftMargin;
-        for (int i = 0; i < 25; i++) {
-            int X1 = start + hatchIn + 2;
-            bayQuery.put((i + 1) * 4 - 3, X1);//左边小倍
-            int X3 = start + hatchIn + hatchLength + 2;
-            bayQuery.put((i + 1) * 4 - 1, X3);//右边小倍
-            int X2 = start + hatchIn + hatchLength / 2;
-            bayQuery.put((i + 1) * 4 - 2, X2);//中间大倍
-            //画实线,船舱左边缘线
-            g2d.setPaint(Color.BLACK);
-            g2d.drawLine(start + hatchIn, topMargin, start + hatchIn, cwpBlock + topMargin);
-            g2d.drawString((i + 1) * 4 - 3 + "", X1 + 3, topMargin + hatchWidth / 2);
-            //画虚线,小倍间隔线
-            g2d.setPaint(Color.LIGHT_GRAY);
-            g2d.drawLine(start + hatchIn + hatchLength, topMargin, start + hatchIn + hatchLength, cwpBlock + topMargin);
-            //画实线,船舱右边缘线
-            g2d.setPaint(Color.BLACK);
-            g2d.drawLine(start + hatchIn + 2 * hatchLength, topMargin, start + hatchIn + 2 * hatchLength, cwpBlock + topMargin);
-            g2d.drawString((i + 1) * 4 - 1 + "", X3 + 3, topMargin + hatchWidth / 2);
-            start = start + hatchIn + 2 * hatchLength;
+        List<String> hatchList = new ArrayList<>(hatchBayMap.keySet());
+        Collections.sort(hatchList, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        Integer cabBay = vesselStructureInfoList.get(0).getCABPOSITION();
+        Integer cabLength = vesselStructureInfoList.get(0).getCABLENGTH();
+        for (String hatchId : hatchList) {
+
+            List<Integer> bayList = new ArrayList<>(hatchBayMap.get(hatchId));
+            Collections.sort(bayList, new Comparator<Integer>() {
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return o1.compareTo(o2);
+                }
+            });
+
+            if (bayList.size() == 2) {
+                int X1 = start + hatchIn + 2;
+                bayQuery.put(bayList.get(0), X1);//左边小倍
+                int X3 = start + hatchIn + hatchLength + 2;
+                bayQuery.put(bayList.get(1), X3);//右边小倍
+                int X2 = start + hatchIn + hatchLength / 2;
+                bayQuery.put((bayList.get(0) + bayList.get(1)) / 2, X2);//中间大倍
+                //画实线,船舱左边缘线
+                g2d.setPaint(Color.BLACK);
+                g2d.drawLine(start + hatchIn, topMargin, start + hatchIn, cwpBlock + topMargin);
+                g2d.drawString(bayList.get(0) + "", X1 + 3, topMargin + hatchWidth / 2);
+                //画虚线,小倍间隔线
+                g2d.setPaint(Color.LIGHT_GRAY);
+                g2d.drawLine(start + hatchIn + hatchLength, topMargin, start + hatchIn + hatchLength, cwpBlock + topMargin);
+                //画实线,船舱右边缘线
+                g2d.setPaint(Color.BLACK);
+                g2d.drawLine(start + hatchIn + 2 * hatchLength, topMargin, start + hatchIn + 2 * hatchLength, cwpBlock + topMargin);
+                g2d.drawString(bayList.get(1) + "", X3 + 3, topMargin + hatchWidth / 2);
+                start = start + hatchIn + 2 * hatchLength;
+
+                //舱画完了，画驾驶室
+                if (cabBay == (bayList.get(0) + bayList.get(1)) / 2
+                        || cabBay == bayList.get(1)) {
+                    int X11 = start + hatchIn + 2;
+                    //画实线,船舱左边缘线
+                    g2d.setPaint(Color.BLACK);
+                    g2d.drawLine(start + hatchIn, topMargin, start + hatchIn, cwpBlock + topMargin);
+                    g2d.drawString("驾驶台", X11 + 3, topMargin + hatchWidth / 2);
+                    //画实线,船舱右边缘线
+                    g2d.setPaint(Color.BLACK);
+                    g2d.drawLine(start + hatchIn + 2 * hatchLength, topMargin, start + hatchIn + 2 * hatchLength, cwpBlock + topMargin);
+                    start = start + hatchIn + 2 * hatchLength;
+                }
+            }
+            if (bayList.size() == 1) {
+                int X1 = start + hatchIn + 2;
+                int X3 = start + hatchIn + hatchLength + 2;
+                int X2 = start + hatchIn + hatchLength / 2;
+                bayQuery.put(bayList.get(0), X2);//中间大倍
+                //画实线,船舱左边缘线
+                g2d.setPaint(Color.BLACK);
+                g2d.drawLine(start + hatchIn, topMargin, start + hatchIn, cwpBlock + topMargin);
+                g2d.drawString(bayList.get(0) + "", X1 + 3, topMargin + hatchWidth / 2);
+                //画虚线,小倍间隔线
+                g2d.setPaint(Color.LIGHT_GRAY);
+                g2d.drawLine(start + hatchIn + hatchLength, topMargin, start + hatchIn + hatchLength, cwpBlock + topMargin);
+                //画实线,船舱右边缘线
+                g2d.setPaint(Color.BLACK);
+                g2d.drawLine(start + hatchIn + 2 * hatchLength, topMargin, start + hatchIn + 2 * hatchLength, cwpBlock + topMargin);
+//                g2d.drawString(bayList.get(0) + "", X3 + 3, topMargin + hatchWidth / 2);
+                start = start + hatchIn + 2 * hatchLength;
+
+                //舱画完了，画驾驶室
+                if (cabBay == bayList.get(0)) {
+                    int X11 = start + hatchIn + 2;
+                    //画实线,船舱左边缘线
+                    g2d.setPaint(Color.BLACK);
+                    g2d.drawLine(start + hatchIn, topMargin, start + hatchIn, cwpBlock + topMargin);
+                    g2d.drawString("驾驶台", X11 + 3, topMargin + hatchWidth / 2);
+                    //画实线,船舱右边缘线
+                    g2d.setPaint(Color.BLACK);
+                    g2d.drawLine(start + hatchIn + 2 * hatchLength, topMargin, start + hatchIn + 2 * hatchLength, cwpBlock + topMargin);
+                    start = start + hatchIn + 2 * hatchLength;
+                }
+            }
         }
 
         //设置桥机颜色
@@ -179,8 +239,8 @@ public class CwpResultPanel1 extends JPanel {
             g2d.drawString(ldFlag, x + 2, y);
 
 //            //画舱和桥机的顺序
-//            g2d.drawString(String.valueOf(craneSeq), x+hatchLength, y);
-//            g2d.drawString(String.valueOf(hatchSeq), x+hatchLength+4, y);
+            g2d.drawString(String.valueOf(craneSeq), x + 18, y + 10);
+            g2d.drawString(String.valueOf(hatchSeq), x + 8, y + 10);
         }
         //遍历Map，画出每个倍位的moveCount数
         if (countQuery != null) {
