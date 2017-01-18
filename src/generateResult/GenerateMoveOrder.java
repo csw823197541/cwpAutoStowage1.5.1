@@ -112,10 +112,17 @@ public class GenerateMoveOrder {
                     isPositive = false;
                     Collections.reverse(initMOSlotBlockBL.getRowSeqList());
                     Collections.reverse(initMOSlotBlockAL.getRowSeqList());
+                    Collections.reverse(initMOSlotBlockAD.getRowSeqList1());
+                    Collections.reverse(initMOSlotBlockBD.getRowSeqList1());
                 } else {
                     Collections.reverse(initMOSlotBlockAD.getRowSeqList());
                     Collections.reverse(initMOSlotBlockBD.getRowSeqList());
+                    Collections.reverse(initMOSlotBlockAD.getRowSeqList1());
+                    Collections.reverse(initMOSlotBlockBD.getRowSeqList1());
                 }
+
+                //对这艘驳船顺序进行写死
+                ImportData.vesselId = voyageInfoList.get(0).getVESSELID();
 
                 //指定舱的作业工艺------开始
                 //获得该舱选择的作业工艺

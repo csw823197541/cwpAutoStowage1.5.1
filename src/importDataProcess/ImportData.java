@@ -28,4 +28,6 @@ public class ImportData {
 
     public static boolean isPositive = true;//船的停靠方向，true为正向（奇数排号靠近海侧）
 
+    public static String vesselId = null;//特殊驳船顺序的处理
+
 }

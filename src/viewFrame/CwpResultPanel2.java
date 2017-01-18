@@ -239,8 +239,8 @@ public class CwpResultPanel2 extends JPanel {
             g2d.drawString(ldFlag, x + 2, y);
 
 //            //画舱和桥机的顺序
-            g2d.drawString(String.valueOf(craneSeq), x + 18, y + 10);
-            g2d.drawString(String.valueOf(hatchSeq), x + 8, y + 10);
+//            g2d.drawString(String.valueOf(craneSeq), x + 18, y + 10);
+//            g2d.drawString(String.valueOf(hatchSeq), x + 8, y + 10);
         }
         //遍历Map，画出每个倍位的moveCount数
         if (countQuery != null) {

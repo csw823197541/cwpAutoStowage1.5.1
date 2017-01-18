@@ -39,7 +39,10 @@ public class TraverseOrder {
         Collections.sort(moSlotList, new Comparator<MOSlot>() {
             @Override
             public int compare(MOSlot o1, MOSlot o2) {
-                return o1.getMoSlotPosition().getTierInt() < o2.getMoSlotPosition().getTierInt() ? -1 : (o1.getMoSlotPosition().getTierInt() == o2.getMoSlotPosition().getTierInt() ? 0 : 1);
+//                return o1.getMoSlotPosition().getTierInt() < o2.getMoSlotPosition().getTierInt()
+//                        ? -1 : (o1.getMoSlotPosition().getTierInt() == o2.getMoSlotPosition().getTierInt()
+//                        ? 0 : 1);
+                return Integer.valueOf(o1.getMoSlotPosition().getTierInt()).compareTo(Integer.valueOf(o2.getMoSlotPosition().getTierInt()));
             }
         });
 
@@ -50,7 +53,8 @@ public class TraverseOrder {
         Collections.sort(moSlotList, new Comparator<MOSlot>() {
             @Override
             public int compare(MOSlot o1, MOSlot o2) {
-                return o1.getMoSlotPosition().getTierInt() > o2.getMoSlotPosition().getTierInt() ? -1 : (o1.getMoSlotPosition().getTierInt() == o2.getMoSlotPosition().getTierInt() ? 0 : 1);
+//                return o1.getMoSlotPosition().getTierInt() > o2.getMoSlotPosition().getTierInt() ? -1 : (o1.getMoSlotPosition().getTierInt() == o2.getMoSlotPosition().getTierInt() ? 0 : 1);
+                return Integer.valueOf(o2.getMoSlotPosition().getTierInt()).compareTo(Integer.valueOf(o1.getMoSlotPosition().getTierInt()));
             }
         });
 

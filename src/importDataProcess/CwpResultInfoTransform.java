@@ -126,8 +126,13 @@ public class CwpResultInfoTransform {
                         e.printStackTrace();
                     }
                 } else {    //上一个时间片对象不为空
-                    //判断当前对象的开始时间是否与上一个对象的结束时间相同（由于cwp的输出有可能前者会小于后者），还有在同一个倍位上（桥机没有移动），则桥机顺序号是相同的
-                    if(currentBlock.getWORKINGSTARTTIME() - lastBlock.getWORKINGENDTIME() <= 1 && currentBlock.getHATCHBWID().equals(lastBlock.getHATCHBWID())){
+                    //判断当前对象的开始时间是否与上一个对象的结束时间相同（由于cwp的输出有可能前者会小于后者），
+                    // 还有在同一个倍位上（桥机没有移动），
+                    // 桥机装、卸的块分开
+                    // 则桥机顺序号是相同的
+                    if(currentBlock.getWORKINGSTARTTIME() - lastBlock.getWORKINGENDTIME() <= 1
+                            && currentBlock.getHATCHBWID().equals(lastBlock.getHATCHBWID())
+                            && currentBlock.getLDULD().equals(lastBlock.getLDULD())){
                         currentBlock.setCraneSeq(lastBlock.getCraneSeq());  //跟上一个大块的序号相同
                     }
                     else{      //不是连续时间片

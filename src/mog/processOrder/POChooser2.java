@@ -136,10 +136,20 @@ public class POChooser2 {
         List<MOSlot> moSlotList = new ArrayList<>();
 
         List<Integer> rowSeqList;
-        if (isBefore == true) {//甲板下的遍历顺序
-            rowSeqList = moSlotBlock.getRowSeqListAsc();
-        } else {
-            rowSeqList = moSlotBlock.getRowSeqList();
+//        if (isBefore == true) {//甲板下的遍历顺序
+//            rowSeqList = moSlotBlock.getRowSeqListAsc();
+//        } else {
+//            rowSeqList = moSlotBlock.getRowSeqList();
+//        }
+
+        rowSeqList = moSlotBlock.getRowSeqList();
+        if ("JHYS2017".equals(ImportData.vesselId)) {
+            if (bay.get(1) != null) {
+                int bayInt = moSlotBlock.getSlotPositions().get(0).getBayInt();
+                if (bayInt > 10) {
+                    rowSeqList = moSlotBlock.getRowSeqList1();
+                }
+            }
         }
 
         for (int j = 0; j < rowSeqList.size(); j++) {
@@ -209,10 +219,20 @@ public class POChooser2 {
         List<MOSlot> moSlotList = new ArrayList<>();
 
         List<Integer> rowSeqList;
-        if (isBefore) {//甲板下的遍历顺序
-            rowSeqList = moSlotBlock.getRowSeqListAsc();
-        } else {
-            rowSeqList = moSlotBlock.getRowSeqList();
+//        if (isBefore) {//甲板下的遍历顺序
+//            rowSeqList = moSlotBlock.getRowSeqListAsc();
+//        } else {
+//            rowSeqList = moSlotBlock.getRowSeqList();
+//        }
+
+        rowSeqList = moSlotBlock.getRowSeqList();
+        if ("JHYS2017".equals(ImportData.vesselId)) {
+            if (bay.get(1) != null) {
+                int bayInt = moSlotBlock.getSlotPositions().get(0).getBayInt();
+                if (bayInt > 10) {
+                    rowSeqList = moSlotBlock.getRowSeqList1();
+                }
+            }
         }
 
         for (int j = 0; j <rowSeqList.size(); j++) {

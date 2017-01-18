@@ -14,6 +14,7 @@ public class MOSlotBlock {
     private Map<Integer, MOSlotStack> bay03;    //03小贝,即第二个小贝
 
     private List<Integer> rowSeqList;           //排号顺序,默认偶数侧在前
+    private List<Integer> rowSeqList1;           //排号顺序,默认奇数侧在前
 
     private List<Integer> rowSeqListAsc; //排号由小到大顺序
 
@@ -33,6 +34,7 @@ public class MOSlotBlock {
         rowSeqList = new ArrayList<>();
         rowSeqListAsc = new ArrayList<>();
         tierNoListAsc = new ArrayList<>();
+        rowSeqList1 = new ArrayList<>();
     }
 
     //按照船舶结构构造空的Block
@@ -112,6 +114,14 @@ public class MOSlotBlock {
             moSlotBlock.rowSeqList.add(i);
             moSlotBlock.rowSeqListAsc.add(i);
         }
+
+        for (int i = moSlotBlock.vMaxRowNo % 2 == 0 ? moSlotBlock.vMaxRowNo - 1 : moSlotBlock.vMaxRowNo; i >= moSlotBlock.vMinRowNo; i = i - 2) {//奇数侧
+            moSlotBlock.rowSeqList1.add(i);
+        }
+        for (int i = moSlotBlock.vMinRowNo % 2 == 0 ? moSlotBlock.vMinRowNo : moSlotBlock.vMinRowNo + 1 ; i <= moSlotBlock.vMaxRowNo; i = i + 2) {//偶数侧
+            moSlotBlock.rowSeqList1.add(i);
+        }
+
 
         //生成遍历顺序，排号从小到大
         Collections.sort(moSlotBlock.rowSeqListAsc);
@@ -285,6 +295,10 @@ public class MOSlotBlock {
 
     public List<Integer> getRowSeqList() {
         return rowSeqList;
+    }
+
+    public List<Integer> getRowSeqList1() {
+        return rowSeqList1;
     }
 
     public List<Integer> getRowSeqListAsc() {
