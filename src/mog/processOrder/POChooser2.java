@@ -143,14 +143,14 @@ public class POChooser2 {
 //        }
 
         rowSeqList = moSlotBlock.getRowSeqList();
-        if ("JHYS2017".equals(ImportData.vesselId)) {
-            if (bay.get(1) != null) {
-                int bayInt = moSlotBlock.getSlotPositions().get(0).getBayInt();
-                if (bayInt > 10) {
-                    rowSeqList = moSlotBlock.getRowSeqList1();
-                }
-            }
-        }
+//        if ("JHYS2017".equals(ImportData.vesselId)) {
+//            if (bay.get(1) != null) {
+//                int bayInt = moSlotBlock.getSlotPositions().get(0).getBayInt();
+//                if (bayInt > 10) {
+//                    rowSeqList = moSlotBlock.getRowSeqList1();
+//                }
+//            }
+//        }
 
         for (int j = 0; j < rowSeqList.size(); j++) {
             int row = rowSeqList.get(j);
@@ -226,14 +226,14 @@ public class POChooser2 {
 //        }
 
         rowSeqList = moSlotBlock.getRowSeqList();
-        if ("JHYS2017".equals(ImportData.vesselId)) {
-            if (bay.get(1) != null) {
-                int bayInt = moSlotBlock.getSlotPositions().get(0).getBayInt();
-                if (bayInt > 10) {
-                    rowSeqList = moSlotBlock.getRowSeqList1();
-                }
-            }
-        }
+//        if ("JHYS2017".equals(ImportData.vesselId)) {
+//            if (bay.get(1) != null) {
+//                int bayInt = moSlotBlock.getSlotPositions().get(0).getBayInt();
+//                if (bayInt > 10) {
+//                    rowSeqList = moSlotBlock.getRowSeqList1();
+//                }
+//            }
+//        }
 
         for (int j = 0; j <rowSeqList.size(); j++) {
             int row = rowSeqList.get(j);
