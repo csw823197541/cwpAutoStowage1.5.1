@@ -219,14 +219,24 @@ public class GenerateMoveOrder {
                 Map<Long,MOSlot> moSlotMapBL = new TreeMap<>();
                 for (MOSlotPosition moSlotPosition:moSlotBlockBL.getSlotPositions()){
                     MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
-                    long seq = moSlot.getMoveOrderSeq();
-                    moSlotMapBL.put(seq,moSlot);
+                    if(moSlot != null){
+                        long seq = moSlot.getMoveOrderSeq();
+                        if(seq>0){
+                            System.out.println("SEQ:" + seq);
+                            moSlotMapBL.put(seq,moSlot);
+                        }
+                    }
                 }
 
                 for (MOSlotPosition moSlotPosition:moSlotBlockBD.getSlotPositions()){
                     MOSlot moSlot = moSlotBlockBD.getMOSlot(moSlotPosition);
-                    long seq = moSlot.getMoveOrderSeq();
-                    moSlotMapBD.put(seq,moSlot);
+                    if(moSlot != null){
+                        long seq = moSlot.getMoveOrderSeq();
+                        if(seq>0) {
+                            System.out.println("SEQ:" + seq);
+                            moSlotMapBD.put(seq,moSlot);
+                        }
+                    }
                 }
                 //按序重拍
                 Iterator iteratorBD = moSlotMapBD.keySet().iterator();
@@ -242,13 +252,16 @@ public class GenerateMoveOrder {
                 }
 
                 int sizeBDL = moSlotListBDL.size();
+                System.out.println("sizeBDL:" + sizeBDL);
+
                 if(sizeBDL>0){
                     long startSeqBDL = 9999;
                     for (int i = 0;i<sizeBDL;i++){
-                        if (moSlotListBDL.get(i).getMoveOrderSeq()<i){
+                        if (moSlotListBDL.get(i).getMoveOrderSeq()<startSeqBDL){
                             startSeqBDL = moSlotListBDL.get(i).getMoveOrderSeq();
                         }
                     }
+                    System.out.println("startSeqBDL:" + startSeqBDL);
 
                     for (int i = 0;i<sizeBDL;i++){
                         moSlotListBDL.get(i).setMoveOrderSeq(startSeqBDL + i);
