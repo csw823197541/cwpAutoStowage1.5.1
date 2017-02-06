@@ -23,7 +23,7 @@ public class PTProcess {
             MOSlotPosition moSlotPosition = new MOSlotPosition(bayInt, rowInt, tierInt);
             String containerNo = preStowageData.getContainerNum();
             String type = preStowageData.getCTYPECD();
-            int weightKg = preStowageData.getWEIGHT();
+            int weightKg = preStowageData.getWEIGHT() != null ? preStowageData.getWEIGHT() : 0;
             String eof = null;
             String size = preStowageData.getSIZE();
             MOContainer moContainer = new MOContainer(containerNo, type, weightKg, eof, size);

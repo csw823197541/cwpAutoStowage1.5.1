@@ -213,61 +213,114 @@ public class GenerateMoveOrder {
                 MOSlotBlock moSlotBlockAL = PTProcess.PTChooserProcess(preStowageListAL, initMOSlotBlockAL, PTSeq);
                 poChooser.processOrderBL(moSlotBlockAL, workTypesL, false);
 
+                long minSeq = Long.MAX_VALUE;
+                for (MOSlotPosition moSlotPosition : moSlotBlockBL.getSlotPositions()) {
+                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
+                    if (moSlot != null) {
+                        long seq = moSlot.getMoveOrderSeq();
+                        if (seq > 0) {
+                            if (seq < minSeq) {
+                                minSeq = seq;
+                            }
+                        }
+                    }
+                }
+                for (MOSlotPosition moSlotPosition : moSlotBlockBD.getSlotPositions()) {
+                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
+                    if (moSlot != null) {
+                        long seq = moSlot.getMoveOrderSeq();
+                        if (seq > 0) {
+                            if (seq < minSeq) {
+                                minSeq = seq;
+                            }
+                        }
+                    }
+                }
+                System.out.println("甲板下开始序号: " + minSeq);
+
+//                for (MOSlotPosition moSlotPosition : moSlotBlockBL.getSlotPositions()) {
+//                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
+//                    if (moSlot != null) {
+//
+//                    }
+//                }
+
 
                 //用于临时处理边装边卸，要求装与卸位置不能重叠
-                Map<Long,MOSlot> moSlotMapBD = new TreeMap<>();//默认升序排列
-                Map<Long,MOSlot> moSlotMapBL = new TreeMap<>();
-                for (MOSlotPosition moSlotPosition:moSlotBlockBL.getSlotPositions()){
+                Map<Long, Set<MOSlot>> moSlotMapBD = new TreeMap<>();//默认升序排列
+                Map<Long, Set<MOSlot>> moSlotMapBL = new TreeMap<>();
+                for (MOSlotPosition moSlotPosition : moSlotBlockBL.getSlotPositions()) {
                     MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
-                    if(moSlot != null){
+                    if (moSlot != null) {
                         long seq = moSlot.getMoveOrderSeq();
-                        if(seq>0){
-                            System.out.println("SEQ:" + seq);
-                            moSlotMapBL.put(seq,moSlot);
+                        if (seq > 0) {
+//                            System.out.println("SEQ:" + seq);
+                            Set<MOSlot> moSlotSet = new HashSet<>();
+                            moSlotSet.add(moSlot);
+                            moSlotMapBL.put(seq, moSlotSet);
                         }
                     }
                 }
 
-                for (MOSlotPosition moSlotPosition:moSlotBlockBD.getSlotPositions()){
+                for (MOSlotPosition moSlotPosition : moSlotBlockBD.getSlotPositions()) {
                     MOSlot moSlot = moSlotBlockBD.getMOSlot(moSlotPosition);
-                    if(moSlot != null){
+                    if (moSlot != null) {
                         long seq = moSlot.getMoveOrderSeq();
-                        if(seq>0) {
-                            System.out.println("SEQ:" + seq);
-                            moSlotMapBD.put(seq,moSlot);
+                        if (seq > 0) {
+//                            System.out.println("SEQ:" + seq);
+                            Set<MOSlot> moSlotSet = new HashSet<>();
+                            moSlotSet.add(moSlot);
+                            moSlotMapBD.put(seq, moSlotSet);
                         }
                     }
                 }
                 //按序重拍
                 Iterator iteratorBD = moSlotMapBD.keySet().iterator();
                 Iterator iteratorBL = moSlotMapBD.keySet().iterator();
-                List<MOSlot> moSlotListBDL = new ArrayList<>();
-                while (iteratorBD.hasNext()||iteratorBL.hasNext()){
-                    if(iteratorBL.hasNext()){
-                        moSlotListBDL.add(moSlotMapBL.get(iteratorBL.next()));
-                    }
-                    if(iteratorBD.hasNext()){
-                        moSlotListBDL.add(moSlotMapBL.get(iteratorBD.next()));
-                    }
-                }
-
-                int sizeBDL = moSlotListBDL.size();
-                System.out.println("sizeBDL:" + sizeBDL);
-
-                if(sizeBDL>0){
-                    long startSeqBDL = 9999;
-                    for (int i = 0;i<sizeBDL;i++){
-                        if (moSlotListBDL.get(i).getMoveOrderSeq()<startSeqBDL){
-                            startSeqBDL = moSlotListBDL.get(i).getMoveOrderSeq();
+                while (iteratorBD.hasNext() || iteratorBL.hasNext()) {
+                    if (iteratorBL.hasNext()) {
+                        Set<MOSlot> moSlotSet = moSlotMapBL.get(iteratorBL.next());
+                        for (MOSlot moSlot : moSlotSet) {
+                            moSlot.setMoveOrderSeq(minSeq);
                         }
+                        minSeq++;
                     }
-                    System.out.println("startSeqBDL:" + startSeqBDL);
-
-                    for (int i = 0;i<sizeBDL;i++){
-                        moSlotListBDL.get(i).setMoveOrderSeq(startSeqBDL + i);
+                    if (iteratorBD.hasNext()) {
+                        Set<MOSlot> moSlotSet = moSlotMapBD.get(iteratorBD.next());
+                        for (MOSlot moSlot : moSlotSet) {
+                            moSlot.setMoveOrderSeq(minSeq);
+                        }
+                        minSeq++;
                     }
                 }
 
+//                Set<MOSlot> moSlotListBDL = new HashSet<>();
+//                while (iteratorBD.hasNext() || iteratorBL.hasNext()) {
+//                    if (iteratorBL.hasNext()) {
+//                        moSlotListBDL.addAll(moSlotMapBL.get(iteratorBL.next()));
+//                    }
+//                    if (iteratorBD.hasNext()) {
+//                        moSlotListBDL.addAll(moSlotMapBL.get(iteratorBD.next()));
+//                    }
+//                }
+//
+//                int sizeBDL = moSlotListBDL.size();
+//                System.out.println("sizeBDL:" + sizeBDL);
+//
+//
+//                if (sizeBDL > 0) {
+//                    long startSeqBDL = 9999;
+//                    for (int i = 0; i < sizeBDL; i++) {
+//                        if (moSlotListBDL.get(i).getMoveOrderSeq() < startSeqBDL) {
+//                            startSeqBDL = moSlotListBDL.get(i).getMoveOrderSeq();
+//                        }
+//                    }
+//                    System.out.println("startSeqBDL:" + startSeqBDL);
+//
+//                    for (int i = 0; i < sizeBDL; i++) {
+//                        moSlotListBDL.get(i).setMoveOrderSeq(startSeqBDL + i);
+//                    }
+//                }
 
 
                 //完成作业工艺和MoveOrder后,将数据进行保存
