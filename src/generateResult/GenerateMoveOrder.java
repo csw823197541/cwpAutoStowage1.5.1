@@ -226,7 +226,7 @@ public class GenerateMoveOrder {
                     }
                 }
                 for (MOSlotPosition moSlotPosition : moSlotBlockBD.getSlotPositions()) {
-                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
+                    MOSlot moSlot = moSlotBlockBD.getMOSlot(moSlotPosition);
                     if (moSlot != null) {
                         long seq = moSlot.getMoveOrderSeq();
                         if (seq > 0) {
@@ -238,13 +238,6 @@ public class GenerateMoveOrder {
                 }
                 System.out.println("甲板下开始序号: " + minSeq);
 
-//                for (MOSlotPosition moSlotPosition : moSlotBlockBL.getSlotPositions()) {
-//                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
-//                    if (moSlot != null) {
-//
-//                    }
-//                }
-
 
                 //用于临时处理边装边卸，要求装与卸位置不能重叠
                 Map<Long, Set<MOSlot>> moSlotMapBD = new TreeMap<>();//默认升序排列
@@ -255,9 +248,13 @@ public class GenerateMoveOrder {
                         long seq = moSlot.getMoveOrderSeq();
                         if (seq > 0) {
 //                            System.out.println("SEQ:" + seq);
-                            Set<MOSlot> moSlotSet = new HashSet<>();
-                            moSlotSet.add(moSlot);
-                            moSlotMapBL.put(seq, moSlotSet);
+                            if (moSlotMapBL.get(seq) != null) {
+                                moSlotMapBL.get(seq).add(moSlot);
+                            } else {
+                                Set<MOSlot> moSlotSet = new HashSet<>();
+                                moSlotSet.add(moSlot);
+                                moSlotMapBL.put(seq, moSlotSet);
+                            }
                         }
                     }
                 }
@@ -268,9 +265,13 @@ public class GenerateMoveOrder {
                         long seq = moSlot.getMoveOrderSeq();
                         if (seq > 0) {
 //                            System.out.println("SEQ:" + seq);
-                            Set<MOSlot> moSlotSet = new HashSet<>();
-                            moSlotSet.add(moSlot);
-                            moSlotMapBD.put(seq, moSlotSet);
+                            if (moSlotMapBD.get(seq) != null) {
+                                moSlotMapBD.get(seq).add(moSlot);
+                            } else {
+                                Set<MOSlot> moSlotSet = new HashSet<>();
+                                moSlotSet.add(moSlot);
+                                moSlotMapBD.put(seq, moSlotSet);
+                            }
                         }
                     }
                 }
