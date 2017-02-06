@@ -277,7 +277,7 @@ public class GenerateMoveOrder {
                 }
                 //按序重拍
                 Iterator iteratorBD = moSlotMapBD.keySet().iterator();
-                Iterator iteratorBL = moSlotMapBD.keySet().iterator();
+                Iterator iteratorBL = moSlotMapBL.keySet().iterator();
                 while (iteratorBD.hasNext() || iteratorBL.hasNext()) {
                     if (iteratorBL.hasNext()) {
                         Set<MOSlot> moSlotSet = moSlotMapBL.get(iteratorBL.next());
