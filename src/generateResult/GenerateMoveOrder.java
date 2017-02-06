@@ -214,6 +214,37 @@ public class GenerateMoveOrder {
                 poChooser.processOrderBL(moSlotBlockAL, workTypesL, false);
 
 
+                //用于临时处理边装边卸，要求装与卸位置不能重叠
+                Map<Long,MOSlot> moSlotMapBD = new TreeMap<>();//默认升序排列
+                Map<Long,MOSlot> moSlotMapBL = new TreeMap<>();
+                for (MOSlotPosition moSlotPosition:moSlotBlockBL.getSlotPositions()){
+                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
+                    long seq = moSlot.getMoveOrderSeq();
+                    moSlotMapBL.put(seq,moSlot);
+                }
+
+                for (MOSlotPosition moSlotPosition:moSlotBlockBD.getSlotPositions()){
+                    MOSlot moSlot = moSlotBlockBD.getMOSlot(moSlotPosition);
+                    long seq = moSlot.getMoveOrderSeq();
+                    moSlotMapBD.put(seq,moSlot);
+                }
+                //按序重拍
+                Iterator iteratorBD = moSlotMapBD.keySet().iterator();
+                Iterator iteratorBL = moSlotMapBD.keySet().iterator();
+                List<MOSlot> moSlotListBDL = new ArrayList<>();
+                while (iteratorBD.hasNext()||iteratorBL.hasNext()){
+                    if(iteratorBL.hasNext()){
+                        moSlotListBDL.add(moSlotMapBL.get(iteratorBL.next()));
+                    }
+                    if(iteratorBD.hasNext()){
+                        moSlotListBDL.add(moSlotMapBL.get(iteratorBD.next()));
+                    }
+                }
+                long startSeqBDL = moSlotListBDL.get(0).getMoveOrderSeq();
+                int sizeBDL = moSlotListBDL.size();
+                for (int i = 0;i<sizeBDL;i++){
+                    moSlotListBDL.get(i).setMoveOrderSeq(startSeqBDL + i);
+                }
 
 
                 //完成作业工艺和MoveOrder后,将数据进行保存
