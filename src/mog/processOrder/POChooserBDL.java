@@ -42,9 +42,17 @@ public class POChooserBDL {
         WW:while (isAllMOSlotStackEmpty(moSlotBlockBD)&&isAllMOSlotStackEmpty(moSlotBlockBL)) {
             //取作业工艺
             int i = 0;
+            int dlRowCounts = 2;
+            //从里到外，先做最多n排卸船，每做一个，从里至外判断整排是否有装船。有，则做一个装船。
+            //当n排卸船完成之后，n变为2n,但不大于最大排数
+            //边装边卸优于作业工艺切换
+
+            //获取rowseq
+
+
             while (i < workTypes.length) {
                 WorkType wt = workTypes[i];//当前作业工艺
-                //从里到外，先做最多n个卸船，每做一个，判断是否有装船。有，则做一个装船
+
 
 
 

@@ -93,23 +93,23 @@ public class TestCWP1_03 {
         preStowageFrame2.setVisible(true);
 
         //调用cwp算法得到结果
-        Long cwpNo = 2L;
-        List<CwpResultInfo> cwpResultInfoList = GenerateCwpResult.getCwpResult(cwpNo, voyageInfoList, vesselStructureInfoList, craneInfoList, resultList);
-        System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(cwpNo));
-
-        //对cwp结果进行处理，将连续作业的cwp块放到一起，以及对作业于某个舱所有的桥机进行编顺序，和某桥机作业舱的顺序
-        Long cwpNo1 = 21L;
-        List<CwpResultInfo> cwpResultInfoTransformList =  CwpResultInfoTransform.getTransformResult(cwpNo1, cwpResultInfoList);
-        System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(cwpNo1));
-        CwpResultFrame cwpResultFrame = new CwpResultFrame(cwpResultInfoTransformList, craneInfoList, vesselStructureInfoList);
-        cwpResultFrame.setVisible(true);
-
-        //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分（理科楼A1502）
-        Long cwpNo2 = 22L;
-        List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpNo2, cwpResultInfoList, preStowageDataList);
-        System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(cwpNo2));
-        CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
-        cwpResultMoveInfoFrame.setVisible(true);
+//        Long cwpNo = 2L;
+//        List<CwpResultInfo> cwpResultInfoList = GenerateCwpResult.getCwpResult(cwpNo, voyageInfoList, vesselStructureInfoList, craneInfoList, resultList);
+//        System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(cwpNo));
+//
+//        //对cwp结果进行处理，将连续作业的cwp块放到一起，以及对作业于某个舱所有的桥机进行编顺序，和某桥机作业舱的顺序
+//        Long cwpNo1 = 21L;
+//        List<CwpResultInfo> cwpResultInfoTransformList =  CwpResultInfoTransform.getTransformResult(cwpNo1, cwpResultInfoList);
+//        System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(cwpNo1));
+//        CwpResultFrame cwpResultFrame = new CwpResultFrame(cwpResultInfoTransformList, craneInfoList, vesselStructureInfoList);
+//        cwpResultFrame.setVisible(true);
+//
+//        //目前现对cwp结果进行处理，得到每一个Move的输出对象，即对现在算法结果进行拆分（理科楼A1502）
+//        Long cwpNo2 = 22L;
+//        List<CwpResultMoveInfo> cwpResultInfoToMoveList = CwpResultInfoToMove.getCwpMoveInfoResult(cwpNo2, cwpResultInfoList, preStowageDataList);
+//        System.out.println("提示信息：" + ExceptionProcess.getExceptionInfo(cwpNo2));
+//        CwpResultMoveInfoFrame cwpResultMoveInfoFrame = new CwpResultMoveInfoFrame(cwpResultInfoToMoveList);
+//        cwpResultMoveInfoFrame.setVisible(true);
 
         //测试自动配载算法
 //        List<AutoStowResultInfo> autoStowInfoList = GenerateAutoStowResult.getAutoStowResult(groupInfoList, containerInfoList, containerAreaInfoList, resultList, cwpResultInfoToMoveList);
