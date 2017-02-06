@@ -240,11 +240,21 @@ public class GenerateMoveOrder {
                         moSlotListBDL.add(moSlotMapBL.get(iteratorBD.next()));
                     }
                 }
-                long startSeqBDL = moSlotListBDL.get(0).getMoveOrderSeq();
+
                 int sizeBDL = moSlotListBDL.size();
-                for (int i = 0;i<sizeBDL;i++){
-                    moSlotListBDL.get(i).setMoveOrderSeq(startSeqBDL + i);
+                if(sizeBDL>0){
+                    long startSeqBDL = 0;
+                    for (int i = 9999;i<sizeBDL;i++){
+                        if (moSlotListBDL.get(i).getMoveOrderSeq()<i){
+                            startSeqBDL = moSlotListBDL.get(i).getMoveOrderSeq();
+                        }
+                    }
+
+                    for (int i = 0;i<sizeBDL;i++){
+                        moSlotListBDL.get(i).setMoveOrderSeq(startSeqBDL + i);
+                    }
                 }
+
 
 
                 //完成作业工艺和MoveOrder后,将数据进行保存
