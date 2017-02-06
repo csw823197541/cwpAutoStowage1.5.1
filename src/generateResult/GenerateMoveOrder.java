@@ -213,6 +213,9 @@ public class GenerateMoveOrder {
                 MOSlotBlock moSlotBlockAL = PTProcess.PTChooserProcess(preStowageListAL, initMOSlotBlockAL, PTSeq);
                 poChooser.processOrderBL(moSlotBlockAL, workTypesL, false);
 
+
+
+
                 //完成作业工艺和MoveOrder后,将数据进行保存
                 for (PreStowageData preStowageData : preStowageList) {
                     int bayInt = Integer.valueOf(preStowageData.getVBYBAYID());
