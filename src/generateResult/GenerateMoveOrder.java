@@ -243,8 +243,8 @@ public class GenerateMoveOrder {
 
                 int sizeBDL = moSlotListBDL.size();
                 if(sizeBDL>0){
-                    long startSeqBDL = 0;
-                    for (int i = 9999;i<sizeBDL;i++){
+                    long startSeqBDL = 9999;
+                    for (int i = 0;i<sizeBDL;i++){
                         if (moSlotListBDL.get(i).getMoveOrderSeq()<i){
                             startSeqBDL = moSlotListBDL.get(i).getMoveOrderSeq();
                         }
