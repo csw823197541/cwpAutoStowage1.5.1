@@ -213,87 +213,87 @@ public class GenerateMoveOrder {
                 MOSlotBlock moSlotBlockAL = PTProcess.PTChooserProcess(preStowageListAL, initMOSlotBlockAL, PTSeq);
                 poChooser.processOrderBL(moSlotBlockAL, workTypesL, false);
 
-                long minSeq = Long.MAX_VALUE;
-                for (MOSlotPosition moSlotPosition : moSlotBlockBL.getSlotPositions()) {
-                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
-                    if (moSlot != null) {
-                        long seq = moSlot.getMoveOrderSeq();
-                        if (seq > 0) {
-                            if (seq < minSeq) {
-                                minSeq = seq;
-                            }
-                        }
-                    }
-                }
-                for (MOSlotPosition moSlotPosition : moSlotBlockBD.getSlotPositions()) {
-                    MOSlot moSlot = moSlotBlockBD.getMOSlot(moSlotPosition);
-                    if (moSlot != null) {
-                        long seq = moSlot.getMoveOrderSeq();
-                        if (seq > 0) {
-                            if (seq < minSeq) {
-                                minSeq = seq;
-                            }
-                        }
-                    }
-                }
-                System.out.println("甲板下开始序号: " + minSeq);
-
-
-                //用于临时处理边装边卸，要求装与卸位置不能重叠
-                Map<Long, Set<MOSlot>> moSlotMapBD = new TreeMap<>();//默认升序排列
-                Map<Long, Set<MOSlot>> moSlotMapBL = new TreeMap<>();
-                for (MOSlotPosition moSlotPosition : moSlotBlockBL.getSlotPositions()) {
-                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
-                    if (moSlot != null) {
-                        long seq = moSlot.getMoveOrderSeq();
-                        if (seq > 0) {
-//                            System.out.println("SEQ:" + seq);
-                            if (moSlotMapBL.get(seq) != null) {
-                                moSlotMapBL.get(seq).add(moSlot);
-                            } else {
-                                Set<MOSlot> moSlotSet = new HashSet<>();
-                                moSlotSet.add(moSlot);
-                                moSlotMapBL.put(seq, moSlotSet);
-                            }
-                        }
-                    }
-                }
-
-                for (MOSlotPosition moSlotPosition : moSlotBlockBD.getSlotPositions()) {
-                    MOSlot moSlot = moSlotBlockBD.getMOSlot(moSlotPosition);
-                    if (moSlot != null) {
-                        long seq = moSlot.getMoveOrderSeq();
-                        if (seq > 0) {
-//                            System.out.println("SEQ:" + seq);
-                            if (moSlotMapBD.get(seq) != null) {
-                                moSlotMapBD.get(seq).add(moSlot);
-                            } else {
-                                Set<MOSlot> moSlotSet = new HashSet<>();
-                                moSlotSet.add(moSlot);
-                                moSlotMapBD.put(seq, moSlotSet);
-                            }
-                        }
-                    }
-                }
-                //按序重拍
-                Iterator iteratorBD = moSlotMapBD.keySet().iterator();
-                Iterator iteratorBL = moSlotMapBL.keySet().iterator();
-                while (iteratorBD.hasNext() || iteratorBL.hasNext()) {
-                    if (iteratorBL.hasNext()) {
-                        Set<MOSlot> moSlotSet = moSlotMapBL.get(iteratorBL.next());
-                        for (MOSlot moSlot : moSlotSet) {
-                            moSlot.setMoveOrderSeq(minSeq);
-                        }
-                        minSeq++;
-                    }
-                    if (iteratorBD.hasNext()) {
-                        Set<MOSlot> moSlotSet = moSlotMapBD.get(iteratorBD.next());
-                        for (MOSlot moSlot : moSlotSet) {
-                            moSlot.setMoveOrderSeq(minSeq);
-                        }
-                        minSeq++;
-                    }
-                }
+//                long minSeq = Long.MAX_VALUE;
+//                for (MOSlotPosition moSlotPosition : moSlotBlockBL.getSlotPositions()) {
+//                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
+//                    if (moSlot != null) {
+//                        long seq = moSlot.getMoveOrderSeq();
+//                        if (seq > 0) {
+//                            if (seq < minSeq) {
+//                                minSeq = seq;
+//                            }
+//                        }
+//                    }
+//                }
+//                for (MOSlotPosition moSlotPosition : moSlotBlockBD.getSlotPositions()) {
+//                    MOSlot moSlot = moSlotBlockBD.getMOSlot(moSlotPosition);
+//                    if (moSlot != null) {
+//                        long seq = moSlot.getMoveOrderSeq();
+//                        if (seq > 0) {
+//                            if (seq < minSeq) {
+//                                minSeq = seq;
+//                            }
+//                        }
+//                    }
+//                }
+//                System.out.println("甲板下开始序号: " + minSeq);
+//
+//
+//                //用于临时处理边装边卸，要求装与卸位置不能重叠
+//                Map<Long, Set<MOSlot>> moSlotMapBD = new TreeMap<>();//默认升序排列
+//                Map<Long, Set<MOSlot>> moSlotMapBL = new TreeMap<>();
+//                for (MOSlotPosition moSlotPosition : moSlotBlockBL.getSlotPositions()) {
+//                    MOSlot moSlot = moSlotBlockBL.getMOSlot(moSlotPosition);
+//                    if (moSlot != null) {
+//                        long seq = moSlot.getMoveOrderSeq();
+//                        if (seq > 0) {
+////                            System.out.println("SEQ:" + seq);
+//                            if (moSlotMapBL.get(seq) != null) {
+//                                moSlotMapBL.get(seq).add(moSlot);
+//                            } else {
+//                                Set<MOSlot> moSlotSet = new HashSet<>();
+//                                moSlotSet.add(moSlot);
+//                                moSlotMapBL.put(seq, moSlotSet);
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                for (MOSlotPosition moSlotPosition : moSlotBlockBD.getSlotPositions()) {
+//                    MOSlot moSlot = moSlotBlockBD.getMOSlot(moSlotPosition);
+//                    if (moSlot != null) {
+//                        long seq = moSlot.getMoveOrderSeq();
+//                        if (seq > 0) {
+////                            System.out.println("SEQ:" + seq);
+//                            if (moSlotMapBD.get(seq) != null) {
+//                                moSlotMapBD.get(seq).add(moSlot);
+//                            } else {
+//                                Set<MOSlot> moSlotSet = new HashSet<>();
+//                                moSlotSet.add(moSlot);
+//                                moSlotMapBD.put(seq, moSlotSet);
+//                            }
+//                        }
+//                    }
+//                }
+//                //按序重拍
+//                Iterator iteratorBD = moSlotMapBD.keySet().iterator();
+//                Iterator iteratorBL = moSlotMapBL.keySet().iterator();
+//                while (iteratorBD.hasNext() || iteratorBL.hasNext()) {
+//                    if (iteratorBL.hasNext()) {
+//                        Set<MOSlot> moSlotSet = moSlotMapBL.get(iteratorBL.next());
+//                        for (MOSlot moSlot : moSlotSet) {
+//                            moSlot.setMoveOrderSeq(minSeq);
+//                        }
+//                        minSeq++;
+//                    }
+//                    if (iteratorBD.hasNext()) {
+//                        Set<MOSlot> moSlotSet = moSlotMapBD.get(iteratorBD.next());
+//                        for (MOSlot moSlot : moSlotSet) {
+//                            moSlot.setMoveOrderSeq(minSeq);
+//                        }
+//                        minSeq++;
+//                    }
+//                }
 
 //                Set<MOSlot> moSlotListBDL = new HashSet<>();
 //                while (iteratorBD.hasNext() || iteratorBL.hasNext()) {

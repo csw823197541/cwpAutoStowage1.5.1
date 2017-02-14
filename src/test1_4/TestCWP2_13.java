@@ -13,10 +13,10 @@ import java.util.*;
 /**
  * Created by csw on 2016/1/21.
  */
-public class TestCWP2_6 {
+public class TestCWP2_13 {
     public static void main(String[] args) {
 
-        String filePath = "2.6CWP/";
+        String filePath = "2.13CWP/";
 
         String vo = FileUtil.readFileToString(new File(filePath + "CwpVoyage.txt")).toString();
 

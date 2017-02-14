@@ -12,7 +12,8 @@ import java.util.*;
  * Created by csw on 2016/9/28 10:32.
  * Explain:
  */
-public class GenerateInstruction {
+public class
+        GenerateInstruction {
 
     public static List<MoveInfo> getWorkInstruction(Long batchNum,
                                                     List<MoveInfo> moveInfoList,
